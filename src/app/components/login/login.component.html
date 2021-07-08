@@ -1,0 +1,39 @@
+<div class="login-body">
+    <div class="mobile-banner">
+        <img src="assets/layout/images/logo-mobile.svg" alt="prestige-layout"/>
+    </div>
+    <div class="login-panel">
+        <div class="logo">
+            <img src="assets/layout/images/logo-mobile.svg" alt="prestige-layout"/>
+        </div>
+    </div>
+
+    <div class="login-card">
+        <div class="top-border"></div>
+        <div class="login-content">
+            <h1>Login</h1>
+            <p>Introduzca sus credenciales.</p>
+            <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div class="username-container">
+                <label>Email</label>
+                <div class="login-input">
+                    <input type="text" autocomplete="off" placeholder="Introduzca su email" formControlName="email" required pInputText>
+                </div>
+            </div>
+            <div class="password-container">
+                <label>Password</label>
+                <div class="login-input">
+                    <input type="password" autocomplete="off" placeholder="Introduzca su password" formControlName="password" required pInputText>
+                </div>
+            </div>
+            <!-- <div class="forgetpassword-container">
+                <a href="#" class="forget-password">Forget Password?</a>
+            </div> -->
+            <div>
+                <button pButton type="button" label="Entrar" style="width: 100%" (click)="login()"></button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
