@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { AppMainComponent } from './app.main.component';
+import {UtilsService} from '../app/core/services/utils/utils.service'
+import { constantes } from './core/constantes';
 
 @Component({
     selector: 'app-menu',
@@ -7,112 +9,109 @@ import { AppMainComponent } from './app.main.component';
 })
 export class AppMenuComponent implements OnInit {
 
-    model: any[];
+    @Input() public usuarioLogueado;
 
-    constructor(public app: AppMainComponent) {}
+    model: any[];
+    role: string = "";
+
+    constructor(public app: AppMainComponent, private utilsService: UtilsService) {}
 
     ngOnInit() {
-        this.model = [
-            {label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['dashboard']},
-            {
-                label: 'UI Kit', icon: 'pi pi-fw pi-star', routerLink: ['/uikit'],
-                items: [
-                    {label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout']},
-                    {label: 'Input', icon: 'pi pi-fw pi-check-square', routerLink: ['/uikit/input']},
-                    {label: 'Float Label', icon: 'pi pi-fw pi-bookmark', routerLink: ['/uikit/floatlabel']},
-                    {label: 'Invalid State', icon: 'pi pi-exclamation-circle', routerLink: ['/uikit/invalidstate']},
-                    {label: 'Button', icon: 'pi pi-fw pi-mobile', routerLink: ['/uikit/button'], class: 'rotated-icon'},
-                    {label: 'Table', icon: 'pi pi-fw pi-table', routerLink: ['/uikit/table']},
-                    {label: 'List', icon: 'pi pi-fw pi-list', routerLink: ['/uikit/list']},
-                    {label: 'Tree', icon: 'pi pi-fw pi-share-alt', routerLink: ['/uikit/tree']},
-                    {label: 'Panel', icon: 'pi pi-fw pi-tablet', routerLink: ['/uikit/panel']},
-                    {label: 'Overlay', icon: 'pi pi-fw pi-clone', routerLink: ['/uikit/overlay']},
-                    {label: 'Media', icon: 'pi pi-fw pi-image', routerLink: ['/uikit/media']},
-                    {label: 'Menu', icon: 'pi pi-fw pi-bars', routerLink: ['/uikit/menu']},
-                    {label: 'Message', icon: 'pi pi-fw pi-comment', routerLink: ['/uikit/message']},
-                    {label: 'File', icon: 'pi pi-fw pi-file', routerLink: ['/uikit/file']},
-                    {label: 'Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/uikit/charts']},
-                    {label: 'Misc', icon: 'pi pi-fw pi-circle-off', routerLink: ['/uikit/misc']}
-                ]
-            },
-            {
-                label: 'Utilities', icon: 'pi pi-fw pi-compass', routerLink: ['utilities'],
-                items: [
-                    {label: 'Display', icon: 'pi pi-fw pi-desktop', routerLink: ['utilities/display']},
-                    {label: 'Elevation', icon: 'pi pi-fw pi-external-link', routerLink: ['utilities/elevation']},
-                    {label: 'FlexBox', icon: 'pi pi-fw pi-directions', routerLink: ['utilities/flexbox']},
-                    {label: 'Icons', icon: 'pi pi-fw pi-search', routerLink: ['utilities/icons']},
-                    {label: 'Text', icon: 'pi pi-fw pi-pencil', routerLink: ['utilities/text']},
-                    {label: 'Widgets', icon: 'pi pi-fw pi-star-o', routerLink: ['utilities/widgets']},
-                    {label: 'Grid System', icon: 'pi pi-fw pi-th-large', routerLink: ['utilities/grid']},
-                    {label: 'Spacing', icon: 'pi pi-fw pi-arrow-right', routerLink: ['utilities/spacing']},
-                    {label: 'Typography', icon: 'pi pi-fw pi-align-center', routerLink: ['utilities/typography']}
-                ]
-            },
-            {
-                label: 'Pages', icon: 'pi pi-fw pi-briefcase', routerLink: ['/pages'],
-                items: [
-                    {label: 'Crud', icon: 'pi pi-fw pi-pencil', routerLink: ['/pages/crud']},
-                    {label: 'Calendar', icon: 'pi pi-fw pi-calendar-plus', routerLink: ['/pages/calendar']},
-                    {label: 'Timeline', icon: 'pi pi-fw pi-calendar', routerLink: ['/pages/timeline']},
-                    {label: 'Landing', icon: 'pi pi-fw pi-globe', url: 'assets/pages/landing.html', target: '_blank'},
-                    {label: 'Login', icon: 'pi pi-fw pi-sign-in', routerLink: ['/login']},
-                    {label: 'Invoice', icon: 'pi pi-fw pi-dollar', routerLink: ['/pages/invoice']},
-                    {label: 'Help', icon: 'pi pi-fw pi-question-circle', routerLink: ['/pages/help']},
-                    {label: 'Error', icon: 'pi pi-fw pi-times-circle', routerLink: ['/error']},
-                    {label: 'Not Found', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/notfound']},
-                    {label: 'Access Denied', icon: 'pi pi-fw pi-lock', routerLink: ['/access']},
-                    {label: 'Empty', icon: 'pi pi-fw pi-circle-off', routerLink: ['/pages/empty']}
-                ]
-            },
-            {
-                label: 'Hierarchy', icon: 'pi pi-fw pi-align-left',
-                items: [
-                    {
-                        label: 'Submenu 1', icon: 'pi pi-fw pi-align-left',
+        if (sessionStorage.getItem('role') === constantes.ROLE_EMPLEADO) {
+            this.role = constantes.ROLE_EMPLEADO_COMPLETO;
+            this.model = [
+                { label: 'Datos ' + this.role, icon: 'pi pi-fw pi-id-card', routerLink: ['datos']},
+                {
+                    label: 'Salud', icon: 'pi pi-fw pi-heart', routerLink: ['salud'],
+                    items: [
+                        { label: 'Tests', icon: 'pi pi-fw pi-list', routerLink: ['salud/tests'] },
+                        { label: 'Vacunas', icon: 'pi pi-fw pi-list', routerLink: ['salud/vacunas']}
+                    ]
+                },
+                {
+                    label: 'EPIs', icon: 'pi pi-fw pi-shield', routerLink: ['epis'],
+                    items: [
+                        { label: 'Solicitar', icon: 'pi pi-fw pi-pencil', routerLink: ['epis/solicitarEPI'] },
+                        { label: 'Mis solicitudes', icon: 'pi pi-fw pi-list', routerLink: ['epis/solicitudesEPI'] }
+                    ]
+                },
+                {
+                    label: 'Trabajo remoto', icon: 'pi pi-fw pi-calendar-minus', routerLink: ['baja']
+                },
+                {
+                    label: 'Noticias', icon: 'pi pi-fw pi-bars', routerLink: ['noticias']
+                }
+            ];
+        } else if(sessionStorage.getItem('role') === constantes.ROLE_DIRECTIVO){
+            this.role = constantes.ROLE_DIRECTIVO_COMPLETO;
+            this.model = [
+                { label: 'Datos ' + this.role, icon: 'pi pi-fw pi-id-card', routerLink: ['datos']},
+                {
+                    label: 'Empleados', icon: 'pi pi-fw pi-users', routerLink: ['empleados'],
+                    items: [
+                        { label: 'Alta empleado', icon: 'pi pi-fw pi-user-plus', routerLink: ['empleados/alta'] },
+                        { label: 'Empleados', icon: 'pi pi-fw pi-users', routerLink: ['empleados/listado'] },
+                    ]
+                },
+                {
+                    label: 'Salud', icon: 'pi pi-fw pi-heart', routerLink: ['salud'],
+                    items: [
+                        { label: 'Tests', icon: 'pi pi-fw pi-list', routerLink: ['salud/tests'] },
+                        { label: 'Vacunas', icon: 'pi pi-fw pi-list', routerLink: ['salud/vacunas']}
+                    ]
+                },
+                {
+                    label: 'EPIs', icon: 'pi pi-fw pi-shield', routerLink: ['epis'],
+                    items: [
+                        { label: 'Solicitar', icon: 'pi pi-fw pi-pencil', routerLink: ['epis/solicitarEPI'] },
+                        { label: 'Mis solicitudes', icon: 'pi pi-fw pi-list', routerLink: ['epis/solicitudesEPI'] },
+                        { label: 'Solicitudes empleados', icon: 'pi pi-fw pi-list', routerLink: ['epis/solicitudesEPIEmpleados'] }
+                    ]
+                },
+                {
+                    label: 'Trabajo remoto', icon: 'pi pi-fw pi-calendar-minus', routerLink: ['baja'],
+                    items: [
+                        { label: 'Mis solicitudes', icon: 'pi pi-fw pi-calendar-minus', routerLink: ['baja'] },
+                        { label: 'Solicitudes empleados', icon: 'pi pi-fw pi-list', routerLink: ['baja/solicitudesBajaEmpleados'] },
+                    ]
+                },
+                {
+                    label: 'Noticias', icon: 'pi pi-fw pi-bars', routerLink: ['noticias']
+                }
+            ];
+        } else if(sessionStorage.getItem('role') === constantes.ROLE_EMPRESA){
+            this.role = constantes.ROLE_EMPRESA_COMPLETO;
+            this.model = [
+                { label: 'Datos ' + this.role, icon: 'pi pi-fw pi-home', routerLink: ['datos'] },
+                {
+                    label: 'EPIs', icon: 'pi pi-fw pi-shield', routerLink: ['epis'],
+                    items: [
+                        { label: 'Añadir epi', icon: 'pi pi-fw pi-plus', routerLink: ['epis/alta'] },
+                        { label: 'Stock mínimo', icon: 'pi pi-fw pi-chart-bar', routerLink: ['epis/stock'] },
+                        { label: 'Inventario', icon: 'pi pi-fw pi-list', routerLink: ['epis/inventario']}
+                    ]
+                },
+                {
+                    label: 'Noticias', icon: 'pi pi-fw pi-bars', routerLink: ['noticias'],
+                    items: [
+                        { label: 'Añadir noticia', icon: 'pi pi-fw pi-plus', routerLink: ['noticias/alta'] },
+                        { label: 'Listar noticias', icon: 'pi pi-fw pi-list', routerLink: ['noticias']}
+                    ]
+                },
+                {
+                    label: 'Análisis', icon: 'pi pi-fw pi-info-circle', routerLink: ['analisis'],
+                    items: [
+                        { label: 'Empleados', icon: 'pi pi-fw pi-pencil', routerLink: ['analisis/empleados'] ,
                         items: [
-                            {
-                                label: 'Submenu 1.1', icon: 'pi pi-fw pi-align-left',
-                                items: [
-                                    {label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-align-left'},
-                                    {label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-align-left'},
-                                    {label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-align-left'},
-                                ]
-                            },
-                            {
-                                label: 'Submenu 1.2', icon: 'pi pi-fw pi-align-left',
-                                items: [
-                                    {label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-align-left'}
-                                ]
-                            },
-                        ]
-                    },
-                    {
-                        label: 'Submenu 2', icon: 'pi pi-fw pi-align-left',
-                        items: [
-                            {
-                                label: 'Submenu 2.1', icon: 'pi pi-fw pi-align-left',
-                                items: [
-                                    {label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-align-left'},
-                                    {label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-align-left'},
-                                ]
-                            },
-                            {
-                                label: 'Submenu 2.2', icon: 'pi pi-fw pi-align-left',
-                                items: [
-                                    {label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-align-left'},
-                                ]
-                            },
-                        ]
-                    }
-                ]
-            },
-            {
-                label: 'Buy Now', icon: 'pi pi-fw pi-shopping-cart', url: ['https://www.primefaces.org/store']
-            },
-            {
-                label: 'Documentation', icon: 'pi pi-fw pi-info-circle', routerLink: ['/documentation']
-            }
-        ];
+                            { label: 'Solicitudes de EPI', icon: 'pi pi-fw pi-chart-bar', routerLink: ['analisis/empleados/solicitudesEPI'] },
+                            { label: 'Bajas', icon: 'pi pi-fw pi-chart-line', routerLink: ['analisis/empleados/bajas']},
+                            { label: 'Vacunas', icon: 'pi pi-fw pi-chart-bar', routerLink: ['analisis/empleados/vacunas']}
+                        ]},
+                        { label: 'EPIS', icon: 'pi pi-fw pi-chart-bar', routerLink: ['analisis/epis'] },
+                    ]
+                }
+            ];
+        }
     }
+
 }

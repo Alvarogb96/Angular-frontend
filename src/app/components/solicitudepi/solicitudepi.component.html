@@ -1,0 +1,61 @@
+<div class="p-grid list-demo">
+	<div class="p-col-12">
+		<p-confirmDialog  key='altaEpi'
+                             [style]="{width: '50%'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+        <button *ngIf="epis.length > 0" pButton class="button-solicitud" (click)="guardarSolicitudEpi()" label="Realizar solicitud"></button>
+		<div class="card">
+			<h5 *ngIf="epis.length === 0">No hay equipos disponibles para solicitar</h5>
+			<h5 *ngIf="epis.length > 0">Solicitud de equipos de protección individual</h5>         
+			<p-dataView #dv *ngIf="epis.length > 0" [value]="epis" [paginator]="true" [rows]="6" filterBy="descripcion"
+						[sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+				<ng-template pTemplate="header">
+					<div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+						<span class="p-input-icon-left p-mb-2 p-mb-md-0">
+                    <i class="pi pi-search"></i>
+                    <input type="search" pInputText placeholder="Buscar por nombre" (input)="dv.filter($event.target.value)">
+                </span>
+						<p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+					</div>
+				</ng-template>
+				<ng-template let-epi pTemplate="listItem">
+					<div class="p-col-12">
+						<div class="product-list-item">
+							<img [src]="'assets/resources/epis/' + epi.image" [alt]="epi.descripcion"/>
+							<div class="product-list-detail">
+								<div class="product-name">{{epi.descripcion}}</div>
+								<span class="span" *ngIf="epi.cantidad === 1">Disponibilidad máxima de lote: {{epi.cantidad}} unidad</span>
+								<span class="span" *ngIf="epi.cantidad > 1">Disponibilidad máxima de lote: {{epi.cantidad}} unidades</span>
+							</div>
+							<div class="product-list-action">
+                                <p-dropdown [options]="unidades"  optionLabel="name"  optionValue="code" 
+                placeholder="Seleccione la cantidad" [(ngModel)]="epi.cantidadSeleccionada"></p-dropdown>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+				<ng-template let-epi pTemplate="gridItem">
+					<div class="p-col-12 p-md-4">
+						<div class="product-grid-item card">
+							<div class="product-grid-item-top">
+								<span class="span" *ngIf="epi.cantidad === 1">Disponibilidad máxima de lote: {{epi.cantidad}} unidad</span>
+								<span class="span" *ngIf="epi.cantidad > 1">Disponibilidad máxima de lote: {{epi.cantidad}} unidades</span>
+							</div>
+							<div class="product-grid-item-content">
+								<img [src]="'assets/resources/epis/' + epi.image" [alt]="epi.descripcion"/>
+								<div class="product-name">{{epi.descripcion}}</div>
+                                <div class="dropdown">
+                                <p-dropdown [options]="unidades"  optionLabel="name"  optionValue="code" 
+                placeholder="Seleccione la cantidad" [(ngModel)]="epi.cantidadSeleccionada"></p-dropdown>
+                                </div>
+							</div>
+							<div class="product-grid-item-bottom">
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</p-dataView>
+		</div>
+        
+	</div>
+</div>
+

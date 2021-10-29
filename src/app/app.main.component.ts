@@ -6,6 +6,8 @@ import {ConnectionService} from '../app/core/services/connection/connection.serv
 import {Empleado} from '../app/core/models/usuario'
 import {AuthService} from '../app/core/services/auth/auth.service'
 import { UtilsService } from './core/services/utils/utils.service';
+import { constantes } from './core/constantes';
+import { Sucursal } from './core/models/sucursal';
 
 @Component({
     selector: 'app-root',
@@ -13,6 +15,7 @@ import { UtilsService } from './core/services/utils/utils.service';
 })
 export class AppMainComponent implements OnInit{
     usuario: any;
+    role: string = '';
 
     configDialogActive = false;
 
@@ -37,13 +40,24 @@ export class AppMainComponent implements OnInit{
         private authService: AuthService, private utilsService: UtilsService) { }
 
     ngOnInit(){
-        this.connectionService.getEmpleadoById(sessionStorage.getItem('token')).subscribe(res =>{
+        this.role = sessionStorage.getItem('role');
+        if(this.role !== constantes.ROLE_EMPRESA){
+        this.connectionService.getEmpleadoByIdToken(sessionStorage.getItem('token')).subscribe(res =>{
             if(res !== undefined){
                 this.usuario = new Empleado(res);
-                console.log(this.usuario);
-            }
-            
+                this.usuario.fechaNacimiento = this.utilsService.getDateStringSinHora(this.usuario.fechaNacimiento);
+                this.usuario.fechaIncorporacion = this.utilsService.getDateStringSinHora(this.usuario.fechaIncorporacion);
+                sessionStorage.setItem('usuario', JSON.stringify(this.usuario));
+            }   
         });
+        } else {
+            this.connectionService.getSucursalByIdToken(sessionStorage.getItem('token')).subscribe(res =>{
+                if(res !== undefined){
+                    this.usuario = new Sucursal(res);
+                    sessionStorage.setItem('usuario', JSON.stringify(this.usuario));
+                }   
+            });
+        }
     }
 
     onRippleChange(event) {
@@ -137,7 +151,6 @@ export class AppMainComponent implements OnInit{
     }
 
     logout(event){
-        console.log(event);
         if(event){
             this.authService.logout();
         }

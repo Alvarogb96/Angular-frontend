@@ -1,7 +1,7 @@
 <div class="layout-topbar">
-    <div href="#" class="layout-topbar-logo">
-        <a href="#">
-            <img class="logo" src="assets/layout/images/logo.png" alt="prestige-layout"/>
+    <div href="#" class="layout-topbar-logo" style="padding: 0% !important;">
+        <a href="#/main/datos">
+            <img class="logo"  style="height: 70px;"   src="assets/resources/Logo.jpg" alt="prestige-layout"/>
         </a>
     </div>
     <a class="layout-menu-button" href="#" (click)="app.onMenuButtonClick($event)">
@@ -75,10 +75,10 @@
         <li #profile class="user-profile" role="menuitem" [ngClass]="{'active-topmenuitem':app.activeTopbarItem === profile}" *ngIf = 'usuarioLogueado'>
             <a href="#" (click)="app.onTopbarItemClick($event,profile)">
                 <div class="user-profile-info profile-link">
-                    <span class="user-profile-name">{{usuarioLogueado.nombre}} {{usuarioLogueado.apellidos}}</span>
+                    <span class="user-profile-name">{{usuarioLogueado.nombre}} {{usuarioLogueado.apellido1}} {{usuarioLogueado.apellido2}}</span>
                     <span class="user-profile-role">{{role}}</span>
                 </div>
-                <img class="logo" src="assets/layout/images/avatar/avatar-ava.jpg" alt="prestige-layout" />
+                <img class="logo" src="assets/resources/user profile.png" alt="logo profile" />
                 
             </a>
             <p-confirmDialog icon="pi pi-exclamation-triangle" key='logout'
@@ -86,9 +86,9 @@
             <ul class="fadeInDown">
                 <li class="profile-detail">
                     <div class="user-profile-info">
-                        <img class="logo" src="assets/layout/images/avatar/avatar-ava.jpg" alt="prestige-layout" />
+                        <img class="logo" src="assets/resources/user profile.png" alt="logo profile" />
                         <div class="profile-info">
-                            <span class="user-profile-name">{{usuarioLogueado.nombre}} {{usuarioLogueado.apellidos}}</span>
+                            <span class="user-profile-name">{{usuarioLogueado.nombre}} {{usuarioLogueado.apellidos}} {{usuarioLogueado.apellido2}}</span>
                             <span class="user-profile-role">{{role}}</span>
                         </div>
                         

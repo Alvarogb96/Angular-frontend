@@ -1,10 +1,10 @@
 <div class="login-body">
     <div class="mobile-banner">
-        <img src="assets/layout/images/logo-mobile.svg" alt="prestige-layout"/>
+        <img  width="64px"    src="assets/resources/logo2.png" alt="prestige-layout"/>
     </div>
     <div class="login-panel">
         <div class="logo">
-            <img src="assets/layout/images/logo-mobile.svg" alt="prestige-layout"/>
+            <img src="assets/resources/logo2.png" alt="prestige-layout"/>
         </div>
     </div>
 
@@ -12,23 +12,23 @@
         <div class="top-border"></div>
         <div class="login-content">
             <h1>Login</h1>
-            <p>Introduzca sus credenciales.</p>
+            <p class="p-login">Introduzca sus credenciales.</p>
+            <p-message severity="error" text="{{errorLoginText}}" *ngIf = "errorLogin"></p-message>
             <form [formGroup]="loginForm" (ngSubmit)="login()">
-            <div class="username-container">
-                <label>Email</label>
+            <div class="username-container mt2">
+                <label>Correo electrónico</label>
                 <div class="login-input">
-                    <input type="text" autocomplete="off" placeholder="Introduzca su email" formControlName="email" required pInputText>
+                    <input type="text" placeholder="Introduzca su correo electrónico" formControlName="email" required pInputText>
+                    <small class="p-error" *ngIf="loginForm.get('email').invalid && loginPulsado">{{getEmailErrorMessage()}}</small>
                 </div>
             </div>
             <div class="password-container">
-                <label>Password</label>
+                <label>Contraseña</label>
                 <div class="login-input">
-                    <input type="password" autocomplete="off" placeholder="Introduzca su password" formControlName="password" required pInputText>
+                    <input type="password" autocomplete="off" placeholder="Introduzca su contraseña" formControlName="password" required pInputText>
+                    <small class="p-error" *ngIf="loginForm.get('password').invalid && loginPulsado">{{getPasswordErrorMessage()}}</small>
                 </div>
             </div>
-            <!-- <div class="forgetpassword-container">
-                <a href="#" class="forget-password">Forget Password?</a>
-            </div> -->
             <div>
                 <button pButton type="button" label="Entrar" style="width: 100%" (click)="login()"></button>
             </div>

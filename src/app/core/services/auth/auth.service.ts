@@ -24,8 +24,7 @@ export class AuthService {
 
 
 
-  login(authData: usuarioLogin): Observable<any>{
-    //console.log(authData);
+  login(authData: usuarioLogin): any{
     return this.httpClient
     .post(`${environment.apiUrl}/login`, authData)
     .pipe(
@@ -36,6 +35,7 @@ export class AuthService {
     }),
     catchError((err) => this.handlerError(err))
     );
+
   }
 
   private saveToken(token: string) {
@@ -48,24 +48,26 @@ export class AuthService {
     sessionStorage.setItem('role', role);
   }
 
-  private handlerError(err): Observable<never> {
+  private handlerError(err): Observable<any> {
     let errorMessage = 'An errror occured retrienving data';
     if (err) {
       //if(err.message = 'Http failure response for http://localhost:3000/login: 401 Unauthorized')
       //errorMessage = `Error: code ${err.message}`;
       errorMessage = `${err.error.message}`;
     }
-    window.alert(errorMessage);
-    return throwError(errorMessage);
+    
+    return throwError(err);
   }
 
   logout(){
-    this.removeToken();
+    this.remove();
     this.router.navigateByUrl('/login');
   }
 
-  removeToken() {
+  remove() {
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('usuario');
+    sessionStorage.removeItem('role');
   }
 
   getToken() {

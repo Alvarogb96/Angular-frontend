@@ -1,0 +1,156 @@
+<div class="p-grid table-demo">
+    <p-confirmDialog  key='aprobarSolicitud'
+    [style]="{width: '50%'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+	<div class="p-col-12">
+		<div class="card">
+        <h5>Filtros de búsqueda</h5>
+        <form [formGroup]="formModel">
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-6">
+                    <label>Correo electrónico empleado</label>
+                    <p-autoComplete [suggestions]="emailsFiltrados" (completeMethod)="buscarEmail($event)" formControlName="email" [(ngModel)]="filtrosBusqueda.email"></p-autoComplete>
+                </div>
+                <div class="p-field p-col-12 p-md-6">
+                    <label>Estado</label>
+                    <p-dropdown [options]="estadoSolicitudSel" [(ngModel)]="filtrosBusqueda.estado" optionLabel="name"  optionValue="code" 
+                    placeholder="Seleccione estado de la solicitud" emptyMessage = "No se han encontrado resultados" formControlName ="estado"></p-dropdown>
+                </div>         
+            </div>
+        </form>
+
+        <div class="p-pt-5 p-pb-5" style="width: max-content;">
+            <button pButton type="button" icon="pi pi-search" iconPos="left" label="Buscar" style="width: 100%" (click)="buscar()"></button>
+        </div>
+        <h5 *ngIf="solicitudes.length === 0">Sin solicitudes para los filtros seleccionados</h5>
+			 <p-table #dt *ngIf="solicitudes.length > 0"[value]="solicitudes" dataKey="id_solicitud"
+					 styleClass="p-datatable-customers" [rowHover]="true" [rows]="5" [paginator]="true"
+					 [filterDelay]="0" [globalFilterFields]="['email','fecha_solicitud','aprobada','fecha_aprobacion']" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5,10,15]" styleClass="p-datatable-responsive-demo">
+				<ng-template pTemplate="caption">
+					<div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+						Solicitudes de baja(trabajo remoto)
+						<span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+						   placeholder="Búsqueda"/>
+                </span>
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header">
+					 <tr>
+						<th pSortableColumn="id_solicitud" style="width: 5%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								ID 
+							</div>
+						</th>
+                        <th pSortableColumn="email" style="width: 15%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Email empleado
+								<p-sortIcon field="email"></p-sortIcon>
+							</div>
+						</th>
+						<th pSortableColumn="fecha_solicitud" style="width: 15%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Fecha solicitud
+								<p-sortIcon field="fecha_solicitud"></p-sortIcon>
+								
+							</div>
+						</th>
+						<th pSortableColumn="aprobada" style="width: 12%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Estado
+								<p-sortIcon field="aprobada"></p-sortIcon>
+								
+							</div>
+						</th>
+                        <th pSortableColumn="fecha_aprobacion" style="width: 15%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Fecha aprobación
+								<p-sortIcon field="fecha_aprobacion"></p-sortIcon>
+								
+							</div>
+						</th>
+                        <th style="width: 6%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Detalle
+							</div>
+						</th>
+                        <th style="width: 13%">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+								Aprobar/Rechazar
+							</div>
+						</th>
+					</tr> 
+				</ng-template>
+				<ng-template pTemplate="body" let-solicitud let-expanded="expanded">
+					<tr class="p-selectable-row">
+						<td>
+                            <span class="p-column-title">ID</span>
+							{{solicitud.id_solicitud_baja}}
+						</td>
+                        <td>
+                            <span class="p-column-title">Email empleado</span>
+							{{solicitud.email}}
+						</td>
+						<td>
+                            <span class="p-column-title">Fecha solicitud</span>
+							{{solicitud.fecha_creacion}}
+						</td>
+						<td>
+                            <span class="p-column-title">Estado</span>
+                            <span *ngIf="solicitud.aprobada !== 'En revisión'" [class]="'solicitud estado-' + solicitud.aprobada">{{solicitud.aprobada}}</span>
+                            <span *ngIf="solicitud.aprobada === 'En revisión'" [class]="'solicitud estado-' + null">{{solicitud.aprobada}}</span>
+						</td>
+						<td *ngIf="solicitud.fecha_aprobacion !== null">
+                            <span class="p-column-title">Fecha aprobación</span>
+							{{solicitud.fecha_aprobacion}}
+						</td>
+                        <td *ngIf="solicitud.fecha_aprobacion === null">
+                            <span class="p-column-title">Fecha aprobación</span>
+							-
+						</td>
+                        <td>
+                            <span class="p-column-title">Detalle</span>
+                            <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-mr-2" (click)="getSolicitud(solicitud)"></button>
+                            
+                        </td>
+                        <td *ngIf="solicitud.aprobada === 'En revisión'">
+                            <span class="p-column-title">Aprobar/Rechazar</span>
+                            <button pButton pRipple type="button" icon="pi pi-check" class="p-button-rounded p-button-text" (click)="aprobarSolicitud(solicitud)"></button>
+                            <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" (click)="rechazarSolicitud(solicitud)"></button>
+                        </td>
+                        <td *ngIf="solicitud.aprobada !== 'En revisión'">
+                            -
+                        </td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="emptymessage">
+					<tr>
+						<td colspan="8">Sin solicitudes de baja registradas.</td>
+					</tr>
+				</ng-template>
+			</p-table> 
+		</div>
+	</div>
+    <app-detalle-solicitud-baja #detalleSolicitudBaja *ngIf="mostrarDetalle"  (cerrarDetalle) = "cerrarDetalle($event)" [solicitud]="solicitud"></app-detalle-solicitud-baja>
+    <p-dialog [(visible)]="mostrarAltaBaja" [style]="{width: '40%'}"  header="Fechas de alta y baja" styleClass="my-style-class" (onHide)="cancel()">
+        <ng-template pTemplate="content">
+        <form [formGroup]="formModel">
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-12">
+                    <label>Fecha baja</label>
+                    <app-datepicker [(date)]="fechaBaja" [(control)]="formModel.controls.fechaBaja" (getDate)="sendDate($event,'fechaBaja')"></app-datepicker>
+                </div>
+                <div class="p-field p-col-12 p-md-12">
+                    <label>Fecha alta</label>
+                    <app-datepicker [(date)]="fechaAlta" [(control)]="formModel.controls.fechaAlta" (getDate)="sendDate($event,'fechaAlta')"></app-datepicker>
+                </div>  
+            </div>
+        </form>
+        </ng-template>
+        
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Confirmar" icon="pi pi-check" class="p-button-text" (click)="aceptar()"></button>
+        </ng-template>
+    </p-dialog>
+
+</div>

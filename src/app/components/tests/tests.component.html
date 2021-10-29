@@ -1,0 +1,157 @@
+<div class="p-grid table-demo">
+	<div class="p-col-12">
+		<p-confirmDialog  key='test'
+                             [style]="{width: '50%'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+		<div class="card">
+			<h5>Añadir Test</h5>
+        <form [formGroup]="formModel">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-12 p-md-6">
+                <label for="tipo6">Tipo</label>
+                <p-dropdown [options]="tipoTestSel" [(ngModel)]="tipoTestSelected" optionLabel="nombre"  optionValue="id_tipo" 
+                placeholder="Seleccione un tipo de test" emptyMessage = "No se han encontrado resultados" formControlName ="tipo"></p-dropdown>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label for="resultado6">Resultado</label>
+                <input id="resultado6" type="text" formControlName="resultado" [(ngModel)]="test.resultado" required pInputText>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label for="clinica6">Clínica</label>
+                <input id="clinica6" type="text" formControlName="clinica" [(ngModel)]="test.clinica"pInputText>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label for="fecha6">Fecha</label>
+				<app-datepicker [(date)]="test.fecha_test" [(control)]="formModel.controls.fechaTest" (getDate)="sendDate($event,'fecha_test')"></app-datepicker>
+			</div>            
+        </div>
+    </form>
+    <label>Adjuntar archivo médico</label>
+
+    <form class="mt-05" action="/upload" method="post" enctype="multipart/form-data" [formGroup]="formModel">
+        <input class="file" type="file" name="file" (change)="selectFile($event)" accept=".pdf" formControlName="files"/>
+
+    </form>
+<div class="p-pt-3 p-pb-5" style="width: max-content;">
+    <button pButton type="button" icon="pi pi-check" iconPos="left" label="Guardar test" style="width: 100%" (click)="addTest()" [disabled]="!isValidForm()"></button>
+</div>
+
+			<h5 *ngIf="totalRecords === 0">Sin tests médicos añadidos al sistema</h5>
+			<p-table #dt *ngIf="totalRecords > 0"[value]="tests" dataKey="id"
+					 styleClass="p-datatable-customers" [rowHover]="true" [rows]="5" [paginator]="true"
+					 [filterDelay]="0" [globalFilterFields]="['nombre','resultado','fecha','clinica']" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5,10,15]" styleClass="p-datatable-responsive-demo">
+				<ng-template pTemplate="caption">
+					<div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+						TESTS REALIZADOS
+						<span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+						   placeholder="Búsqueda"/>
+                </span>
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header">
+					<tr>
+						<th pSortableColumn="nombre">
+							<div class="p-d-flex p-jc-between p-ai-center" style="width: 20%">
+								Tipo
+								<p-sortIcon field="nombre"></p-sortIcon>
+							</div>
+						</th>
+						<th pSortableColumn="resultado" style="width: 20%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Resultado
+								<p-sortIcon field="resultado"></p-sortIcon>
+							</div>
+						</th>
+						<th pSortableColumn="fecha" style="width: 20%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Fecha del test
+								<p-sortIcon field="fecha"></p-sortIcon>
+							</div>
+						</th>
+                        <th pSortableColumn="clinica" style="width: 20%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Clínica
+								<p-sortIcon field="clinica"></p-sortIcon>
+							</div>
+						</th>
+						<th style="width: 10%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Descargar Test
+							</div>
+						</th>
+						<th style="width: 10%"></th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-test>
+					<tr class="p-selectable-row">					
+						<td>
+							<span class="p-column-title">Tipo</span>
+							{{test.nombre}}
+						</td>
+						<td>
+							<span class="p-column-title">Resultado</span>
+							{{test.resultado}}
+						</td>
+						<td>
+							<span class="p-column-title">Fecha del test</span>
+							{{test.fecha_test}}
+						</td>
+						<td>
+							<span class="p-column-title">Clínica</span>
+							{{test.clinica}}
+						</td>
+						<td>
+							<span class="p-column-title">Descargar Test</span>
+                            <button pButton pRipple icon="pi pi-download" class="p-button-rounded p-mr-2" (click)="download(test)"></button>
+                        </td>
+						<td>
+							<button  pButton pRipple icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top" class="p-button-rounded p-mr-2" (click)="mostrarEditarTest(test)"></button>
+							<button  pButton pRipple icon="pi pi-trash" pTooltip="Eliminar" tooltipPosition="top" class="p-button-rounded" (click)="eliminarTest(test)"></button>
+						</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="emptymessage">
+					<tr>
+						<td colspan="8">Sin tests registrados.</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>
+<p-dialog [(visible)]="mostrar" [style]="{width: '70%'}" header="Editar test" [modal]="true" styleClass="p-fluid" (onHide)="cancel()">
+    <ng-template pTemplate="content">
+		<form [formGroup]="formModelEdit">
+			<div class="p-fluid p-formgrid p-grid">
+			<div class="p-field p-col-12 p-md-6">
+                <label for="tipo6">Tipo</label>
+                <p-dropdown [options]="tipoTestSel" [(ngModel)]="testEdit.id_tipo" optionLabel="nombre"  optionValue="id_tipo" 
+                placeholder="Seleccione un tipo de test" emptyMessage = "No se han encontrado resultados" formControlName ="tipo"></p-dropdown>
+            </div>
+			<div class="p-field p-col-12 p-md-6">
+                <label for="resultado6">Resultado</label>
+                <input id="resultado6" type="text" formControlName="resultado" [(ngModel)]="testEdit.resultado" required pInputText>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label for="clinica6">Clínica</label>
+                <input id="clinica6" type="text" formControlName="clinica" [(ngModel)]="testEdit.clinica"pInputText>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label for="fecha6">Fecha</label>
+				<app-datepicker [(date)]="testEdit.fecha_test" [(control)]="formModelEdit.controls.fechaTest" (getDate)="sendDateEdit($event,'fecha_test')"></app-datepicker>
+			</div>
+		</div>
+		<label>Adjuntar archivo médico</label>
+		<form class="mt-05" action="/upload" method="post" enctype="multipart/form-data" [formGroup]="formModelEdit">
+			<input class="file" type="file" name="file" (change)="selectFile($event)" accept=".pdf" formControlName="files"/>
+	
+		</form>
+		</form>
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button  pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="cancel()"></button>
+        <button  pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="editarTest()" [disabled]="!isValidFormEdit()"></button>
+	</ng-template>
+</p-dialog>

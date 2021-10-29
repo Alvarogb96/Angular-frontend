@@ -1,0 +1,5 @@
+<div class="card">
+    <h5 *ngIf="this.data.datasets[0].data.length === 0">Vacunas en el sistema</h5>
+    <h5 *ngIf="this.data.datasets[0].data.length > 0">Empleados vacunados</h5>
+    <p-chart *ngIf = "mostrar && this.data.datasets[0].data.length > 0" type="doughnut" [data]="data" [options]="chartOptions" [style]="{'width': '100%'}"></p-chart>
+</div>

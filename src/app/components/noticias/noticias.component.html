@@ -1,0 +1,97 @@
+<div class="p-grid table-demo">
+	<div class="p-col-12">
+		<p-confirmDialog  key='noticia'
+                             [style]="{width: '50%'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+		<div class="card">
+			<h5 *ngIf="noticias.length === 0">No hay noticias en el sistema</h5>
+			<p-table #dt *ngIf="noticias.length > 0"[value]="noticias" dataKey="id"
+					 styleClass="p-datatable-customers" [rowHover]="true" [rows]="5" [paginator]="true"
+					 [filterDelay]="0" [globalFilterFields]="['titulo','descripcion', 'fecha_creacion']" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5,10,15]" styleClass="p-datatable-responsive-demo">
+				<ng-template pTemplate="caption">
+					<div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+						NOTICIAS
+						<span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+						   placeholder="Búsqueda"/>
+                </span>
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header">
+					<tr>
+						<th pSortableColumn="titulo" style="width: 30%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Título
+								<p-sortIcon field="titulo"></p-sortIcon>
+							</div>
+						</th>
+						<th pSortableColumn="descripcion" style="width: 40%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Descripción
+								<p-sortIcon field="descripcion"></p-sortIcon>
+							</div>
+						</th>
+						<th pSortableColumn="fecha_creacion" style="width: 15%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Fecha de publicación
+								<p-sortIcon field="fecha_creacion"></p-sortIcon>
+							</div>
+						</th>
+						<th style="width: 15%">Acciones</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-noticia>
+					<tr class="p-selectable-row">					
+						<td>
+							<span class="p-column-title">Título</span>
+							{{noticia.titulo}}
+						</td>
+						<td>
+							<span class="p-column-title">Descripción</span>
+							{{noticia.descripcion}}
+						</td>
+						<td>
+							<span class="p-column-title">Fecha de publicación</span>
+							{{noticia.fecha_creacion}}
+						</td>
+						<td>
+							<span class="p-column-title">Acciones</span>
+							<button pButton pRipple icon="pi pi-eye" pTooltip="Detalle" tooltipPosition="top" class="p-button-rounded p-mr-2" (click)="verNoticia(noticia)"></button>
+							<button *ngIf="role === 'C'" pButton pRipple icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top" class="p-button-rounded p-mr-2" (click)="editarNoticia(noticia)"></button>
+							<button *ngIf="role === 'C'" pButton pRipple icon="pi pi-trash" pTooltip="Eliminar" tooltipPosition="top" class="p-button-rounded" (click)="eliminarNoticia(noticia)"></button>
+						</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="emptymessage">
+					<tr>
+						<td colspan="8">No hay noticias registradas en el sistema.</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>
+<p-dialog [(visible)]="mostrar" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '70%'}" header="Visualizar/Editar noticia" [modal]="true" styleClass="p-fluid" (onHide)="cancel()">
+    <ng-template pTemplate="content">
+		<form [formGroup]="formModel">
+        <div class="p-field">
+            <label for="name">TÍtulo</label>
+			<input [readonly] = "detalle" type="text" formControlName="titulo" [(ngModel)]="noticia.titulo" maxlength="45" required pInputText>
+            <small class="p-error" *ngIf=" !noticia.titulo && !detalle">Título obligatorio.</small>
+        </div>
+		<div class="p-field" >
+			<label for="description">Descripción</label>
+			<textarea [readonly] = "detalle" rows="5" pInputTextarea [(ngModel)]="noticia.descripcion" formControlName="descripcion" maxlength="255"
+				required></textarea>
+			<small class="p-error" *ngIf="!noticia.descripcion && !detalle">Descripción obligatoria.</small>
+		</div>
+		</form>
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button *ngIf="!detalle" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="cancel()"></button>
+        <button *ngIf="!detalle" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="guardarNoticia(noticia)"></button>
+		<button *ngIf="detalle" pButton pRipple label="Aceptar" icon="pi pi-check" class="p-button-text" (click)="cancel()"></button>
+	</ng-template>
+</p-dialog>
+

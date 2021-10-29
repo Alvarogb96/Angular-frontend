@@ -2055,7 +2055,8 @@ body a {
 }
 
 .login-body {
-  background: url("../images/pages/bg-login.jpg");
+  /*background: url("../images/pages/bg-login.jpg");*/
+  background: url("../../resources/fondo2.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top;
@@ -2081,7 +2082,7 @@ body a {
   text-align: center;
   height: 100%;
   width: 90px;
-  opacity: 0.9;
+  opacity: 0.95;
   background: radial-gradient(circle at 50% 3%, #f3f4f9, #d7dbe8);
 }
 .login-body .login-panel .logo {
@@ -2092,7 +2093,7 @@ body a {
   margin-left: calc(10% + 90px);
   width: 25%;
   min-width: 420px;
-  opacity: 0.9;
+  opacity: 0.95;
   border-radius: 2px;
   background: radial-gradient(circle at 50% 3%, #f3f4f9, #d7dbe8);
 }

@@ -1,0 +1,38 @@
+<p-dialog [(visible)]="mostrar"  [style]="{width: '80%'}" header="Detalles de la solicitud de trabajo remoto" [modal]="true" styleClass="p-fluid" (onHide)="cancel()">
+    <ng-template pTemplate="content">
+    <form [formGroup]="formModel">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-12 p-md-12">
+            <label>Motivo</label>
+                    <textarea rows="5" cols="50" pInputTextarea [(ngModel)]="solicitud.motivo" formControlName="motivo" maxlength="100"
+                        required readonly></textarea>
+            </div>
+            <div class="p-field p-col-12 p-md-3">
+                <label>Fecha de la solicitud</label>
+                <input readonly= "true" type="text" formControlName="fechaSolicitud" [(ngModel)]="solicitud.fecha_creacion" pInputText>
+            </div>
+            <div class="p-field p-col-12 p-md-3">
+                <label>Fecha aprobación</label>
+                <input readonly= "true" type="text" formControlName="fechaAprobacion" [(ngModel)]="solicitud.fecha_aprobacion"  pInputText>
+            </div>
+            <div class="p-field p-col-12 p-md-3">
+                <label>Fecha baja</label>
+                <input readonly= "true" type="text" formControlName="fechaBaja" [(ngModel)]="solicitud.fecha_baja"  pInputText>
+            </div>
+            <div class="p-field p-col-12 p-md-3">
+                <label>Fecha alta</label>
+                <input readonly= "true" type="text" formControlName="fechaAlta" [(ngModel)]="solicitud.fecha_alta" pInputText>
+            </div> 
+            <div class="p-field p-col-12 p-md-2">
+                <label>Descargar archivo</label>
+                <button pButton pRipple icon="pi pi-download" class="p-button-rounded p-mr-2" (click)="download(solicitud)"></button>
+            </div> 
+        </div>
+    </form>
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Aceptar" icon="pi pi-check" class="p-button-text" (click)="aceptar()"></button>
+    </ng-template>
+</p-dialog>
+

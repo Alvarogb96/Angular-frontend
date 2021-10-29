@@ -180,7 +180,6 @@ export class AppConfigComponent implements OnInit {
 
     changeWrapperMode(event, mode) {
         this.app.wrapperMode = mode;
-        console.log(this.app.wrapperMode)
         event.preventDefault();
     }
 

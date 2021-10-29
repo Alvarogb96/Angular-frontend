@@ -1,0 +1,5 @@
+<div class="card">
+    <h5 *ngIf="basicData.labels.length === 0">No hay solicitudes de trabajo remoto registradas en el sistema</h5>
+    <h5 *ngIf="basicData.labels.length > 0">Bajas(trabajo remoto) cada mes</h5>
+    <p-chart *ngIf = "mostrar && basicData.labels.length > 0" type="line" [data]="basicData" [options]="basicOptions"></p-chart>
+</div>

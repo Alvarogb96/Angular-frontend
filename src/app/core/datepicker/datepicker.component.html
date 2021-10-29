@@ -1,0 +1,9 @@
+<form [formGroup]="formModel" class="datepicker">
+    <div class="input-group">
+        <input class="form-control" formControlName="date" name="dp" [(ngModel)]="model" ngbDatepicker
+            (ngModelChange)="sendDate($event)" [minDate]="minDate" [maxDate]="maxDate" maxlength="10"
+            [readonly]="readonly" [placement]="placement" #d="ngbDatepicker" tooltipPosition="top">
+        <button class="btn p-button-icon btn-outline-secondary calendar" (click)="d.toggle()" [disabled]="readonly" type="button"><i
+                class="p-button-icon pi pi-calendar"></i></button>
+    </div>
+</form>

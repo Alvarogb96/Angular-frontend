@@ -1,0 +1,101 @@
+<div class="p-grid table-demo">
+	<div class="p-col-12">
+		<p-confirmDialog  key='epi'
+                             [style]="{width: '50%'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+		<div class="card">
+			<h5 *ngIf="epis.length === 0">No hay equipos de protección individual registrados en el sistema</h5>
+			<p-table #dt *ngIf="epis.length > 0" [value]="epis" dataKey="id_epi"
+					 styleClass="p-datatable-customers" [rowHover]="true" [rows]="5" [paginator]="true"
+					 [filterDelay]="0" [globalFilterFields]="['descripcion','lote','cantidad', 'existencias', 'fecha_disponibilidad']" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5,10,15]" styleClass="p-datatable-responsive-demo">
+				<ng-template pTemplate="caption">
+					<div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+						<h5>Equipos de protección individual</h5>
+						<span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+						   placeholder="Búsqueda"/>
+                </span>
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header">
+					<tr>
+						<th pSortableColumn="id_epi" style="width: 5%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								ID
+							</div>
+						</th>
+						<th pSortableColumn="descripcion" style="width: 15%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Tipo
+								<p-sortIcon field="descripcion"></p-sortIcon>
+							</div>
+						</th>
+						<th pSortableColumn="lote" style="width: 15%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Lote
+								<p-sortIcon field="lote"></p-sortIcon>
+							</div>
+						</th>
+                        <th pSortableColumn="cantidad"style="width: 15%" >
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Cantidad
+								<p-sortIcon field="cantidad"></p-sortIcon>
+							</div>
+						</th>
+						<th pSortableColumn="existencias" style="width: 15%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Existencias
+								<p-sortIcon field="existencias"></p-sortIcon>
+							</div>
+						</th>
+						<th pSortableColumn="fecha_disponibilidad" style="width: 20%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Fecha disponibilidad
+								<p-sortIcon field="fecha_disponibilidad"></p-sortIcon>
+							</div>
+						</th>
+						<th style="width: 15%">Eliminar</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-epi>
+					<tr class="p-selectable-row">				
+						<td>
+							<span class="p-column-title">ID</span>
+							{{epi.id_epi}}
+						</td>
+						<td>
+							<span class="p-column-title">Tipo</span>
+							{{epi.descripcion}}
+						</td>
+						<td>
+							<span class="p-column-title">Lote</span>
+							{{epi.lote}}
+						</td>
+						<td>
+                            <span class="p-column-title">Cantidad</span>
+							{{epi.cantidad}} unidad/es
+						</td>
+						<td>
+                            <span class="p-column-title">Existencias</span>
+							{{epi.existencias}} unidad/es
+						</td>
+						<td>
+                            <span class="p-column-title">Fecha disponibilidad</span>
+							{{epi.fecha_disponibilidad}}
+						</td>
+						<td>
+							<span class="p-column-title">Eliminar</span>
+							<button pButton pRipple icon="pi pi-trash" pTooltip="Eliminar" tooltipPosition="top" class="p-button-rounded" (click)="eliminarEpi(epi)"></button>
+						</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="emptymessage">
+					<tr>
+						<td colspan="8">Sin solicitudes de equipos de protección individual registradas.</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>
+

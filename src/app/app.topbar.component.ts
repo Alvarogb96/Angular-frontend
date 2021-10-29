@@ -20,8 +20,12 @@ export class AppTopBarComponent implements OnInit, OnChanges{
     }
 
     ngOnChanges(changes){
-      if(changes.usuarioLogueado && this.usuarioLogueado != undefined && this.usuarioLogueado.role != undefined){
-        this.role = this.utilsService.getRole(this.usuarioLogueado.role);
+      if(sessionStorage.getItem('role') !== constantes.ROLE_EMPRESA){
+        if (changes.usuarioLogueado && this.usuarioLogueado != undefined && this.usuarioLogueado.role != undefined) {
+          this.role = this.utilsService.getRole(this.usuarioLogueado.role);
+        }
+      } else {
+        this.role = this.utilsService.getRole(sessionStorage.getItem('role'));
       }
     }
 

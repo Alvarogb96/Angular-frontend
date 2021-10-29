@@ -2,14 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder,FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
+import { constantes } from 'src/app/core/constantes';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+
+  loginPulsado: boolean = false;
+  errorLogin: boolean = false;
+  errorLoginText: string = "";
 
   constructor(private auth: AuthService, private router: Router) {
     this.loginForm = new FormGroup({
@@ -20,6 +26,7 @@ export class LoginComponent implements OnInit {
    }
 
   ngOnInit(): void {
+
   }
 
   login(){
@@ -27,19 +34,30 @@ export class LoginComponent implements OnInit {
       email: this.loginForm.get('email').value,
       password: this.loginForm.get('password').value
     }
-  if(this.loginForm.value.email !== '' && this.loginForm.value.password !== ''){
+    if(!this.loginForm.get('email').invalid && !this.loginForm.get('password').invalid){
     this.auth.login(authData).subscribe((res) => {
-      console.log(res);
-
-    this.router.navigateByUrl('main');
-    
+      this.router.navigateByUrl('main/datos');
     }, (err) =>{
       if (err.status === 401) {
-        //this.showError = true;
-        
+       this.errorLogin = true;
+       this.errorLoginText =err.error.message;
       }
     });
+     } else {
+      this.loginPulsado = true;
+    }
+  }
 
+  getEmailErrorMessage() {
+    if (this.loginForm.get('email').hasError('required')) {
+      return constantes.EMAIL_VACIO;
+    } else if(this.loginForm.get('email').hasError('email')){
+      return constantes.EMAIL_ERROR;
+    }
+  }
+  getPasswordErrorMessage(){
+    if(this.loginForm.get('password').hasError('required')){
+      return constantes.PASSWORD_VACIA;   
     }
   }
 

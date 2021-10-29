@@ -1,0 +1,149 @@
+<div class="p-grid table-demo">
+	<div class="p-col-12">
+		<p-confirmDialog  key='vacuna'
+                             [style]="{width: '50%'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+		<div class="card">
+			<h5>Añadir Vacuna</h5>
+        <form [formGroup]="formModel">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-12 p-md-4">
+                <label for="tipo6">Tipo</label>
+                <p-dropdown [options]="tipoVacunaSel" [(ngModel)]="tipoVacunaSelected" optionLabel="nombre"  optionValue="id_tipo" 
+                placeholder="Seleccione un tipo de vacuna" emptyMessage = "No se han encontrado resultados" formControlName ="tipo"></p-dropdown>
+            </div>
+            <div class="p-field p-col-12 p-md-4">
+                <label>Pauta completa</label>
+                <p-dropdown [options]="pautaCompletaSel" [(ngModel)]="vacuna.pauta_completa" optionLabel="name"  optionValue="code" 
+				placeholder="Indique pauta completa" emptyMessage = "No se han encontrado resultados" formControlName ="pautaCompleta"></p-dropdown>
+            </div>
+            <div class="p-field p-col-12 p-md-4">
+                <label for="fecha6">Fecha vacuna</label>
+				<app-datepicker [(date)]="vacuna.fecha_vacuna" [(control)]="formModel.controls.fechaVacuna" (getDate)="sendDate($event,'fecha_vacuna')"></app-datepicker>
+			</div>            
+        </div>
+    </form>
+    <label>Adjuntar certificado COVID-19</label>
+
+    <form class="mt-05" action="/upload" method="post" enctype="multipart/form-data" [formGroup]="formModel">
+        <input class="file" type="file" name="file" (change)="selectFile($event)" accept=".pdf" formControlName="files"/>
+
+    </form>
+<div class="p-pt-3 p-pb-5" style="width: max-content;">
+    <button pButton type="button" icon="pi pi-check" iconPos="left" label="Guardar Vacuna" style="width: 100%" (click)="addVacuna()" [disabled]="!isValidForm()"></button>
+</div>
+
+			<h5 *ngIf="totalRecords === 0">Sin vacunas añadidas al sistema</h5>
+			<p-table #dt *ngIf="totalRecords > 0"[value]="vacunas" dataKey="id"
+					 styleClass="p-datatable-customers" [rowHover]="true" [rows]="5" [paginator]="true"
+					 [filterDelay]="0" [globalFilterFields]="['nombre','pauta_completa','fecha']" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5,10,15]" styleClass="p-datatable-responsive-demo">
+				<ng-template pTemplate="caption">
+					<div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+						VACUNAS
+						<span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+						   placeholder="Búsqueda"/>
+                </span>
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header">
+					<tr>
+						<th pSortableColumn="nombre" style="width: 30%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Tipo
+								<p-sortIcon field="nombre"></p-sortIcon>
+							</div>
+						</th>
+						<th pSortableColumn="resultado" style="width: 10%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Pauta completa
+								<p-sortIcon field="resultado"></p-sortIcon>
+							</div>
+						</th>
+						<th pSortableColumn="fecha" style="width: 30%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Fecha vacuna
+								<p-sortIcon field="fecha"></p-sortIcon>
+							</div>
+						</th>
+						<th style="width: 20%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Descargar Certificado
+							</div>
+						</th>
+						<th style="width: 10%"></th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-vacuna>
+					<tr class="p-selectable-row">					
+						<td>
+							<span class="p-column-title">Tipo</span>
+							{{vacuna.nombre}}
+						</td>
+						<td>
+							<span class="p-column-title">Pauta completa</span>
+							{{vacuna.pauta_completa}}
+						</td>
+						<td>
+							<span class="p-column-title">Fecha</span>
+							{{vacuna.fecha_vacuna}}
+						</td>
+						<td>
+							<span class="p-column-title">Descargar certificado</span>
+                            <button pButton pRipple icon="pi pi-download" class="p-button-rounded p-mr-2" (click)="download(vacuna)"></button>
+                            
+                        </td>
+						<td>
+							<button  pButton pRipple icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top" class="p-button-rounded p-mr-2" (click)="mostrarEditarVacuna(vacuna)"></button>
+							<button  pButton pRipple icon="pi pi-trash" pTooltip="Eliminar" tooltipPosition="top" class="p-button-rounded" (click)="eliminarVacuna(vacuna)"></button>
+						</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="emptymessage">
+					<tr>
+						<td colspan="8">Sin vacunas registradas.</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>
+<p-dialog [(visible)]="mostrar" [style]="{width: '70%'}" header="Editar vacuna" [modal]="true" styleClass="p-fluid"
+	(onHide)="cancel()">
+	<ng-template pTemplate="content">
+		<form [formGroup]="formModelEdit">
+			<div class="p-fluid p-formgrid p-grid">
+				<div class="p-field p-col-12 p-md-4">
+					<label for="tipo6">Tipo</label>
+					<p-dropdown [options]="tipoVacunaSel" [(ngModel)]="vacunaEdit.id_tipo_vacuna" optionLabel="nombre"
+						optionValue="id_tipo" placeholder="Seleccione un tipo de vacuna"
+						emptyMessage="No se han encontrado resultados" formControlName="tipo"></p-dropdown>
+				</div>
+				<div class="p-field p-col-12 p-md-4">
+					<label>Pauta completa</label>
+					<p-dropdown [options]="pautaCompletaSel" [(ngModel)]="pautaCompleta" optionLabel="name"
+						optionValue="code" placeholder="Indique pauta completa"
+						emptyMessage="No se han encontrado resultados" formControlName="pautaCompleta"></p-dropdown>
+				</div>
+				<div class="p-field p-col-12 p-md-4">
+					<label for="fecha6">Fecha vacuna</label>
+					<app-datepicker [(date)]="vacunaEdit.fecha_vacuna" [(control)]="formModelEdit.controls.fechaVacuna"
+						(getDate)="sendDateEdit($event,'fecha_vacuna')"></app-datepicker>
+				</div>
+			</div>
+			<label>Adjuntar archivo médico</label>
+			<form class="mt-05" action="/upload" method="post" enctype="multipart/form-data" [formGroup]="formModelEdit">
+				<input class="file" type="file" name="file" (change)="selectFile($event)" accept=".pdf"
+					formControlName="files" />
+
+			</form>
+		</form>
+	</ng-template>
+
+	<ng-template pTemplate="footer">
+		<button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="cancel()"></button>
+		<button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"
+			(click)="editarVacuna()" [disabled]="!isValidFormEdit()"></button>
+	</ng-template>
+</p-dialog>
+

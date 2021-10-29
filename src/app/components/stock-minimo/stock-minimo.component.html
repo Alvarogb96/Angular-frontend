@@ -1,0 +1,51 @@
+<div class="p-col-12">
+
+    <div class="card">
+        <h5>Stock mínimo de cada tipo de equipo de protección individual</h5>    
+        <p-dataView #dv *ngIf="tiposEpi.length > 0 && mostrar"[value]="tiposEpi" [paginator]="false" [rows]="6" filterBy="descripcion"
+            [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+    <ng-template pTemplate="header">
+        <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+            <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+        <i class="pi pi-search"></i>
+        <input type="search" pInputText placeholder="Buscar por nombre" (input)="dv.filter($event.target.value)">
+    </span>
+            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+        </div>
+    </ng-template>
+    <ng-template let-tipoEpi pTemplate="listItem">
+        <div class="p-col-12">
+            <div class="product-list-item">
+                <img [src]="'assets/resources/epis/' + tipoEpi.image" [alt]="tipoEpi.descripcion"/>
+                <div class="product-list-detail">
+                    <div class="product-name">{{tipoEpi.descripcion}}</div>
+                </div>
+                <div class="product-list-action">
+    <span class="cantidad">Stock Mínimo</span>
+    <p-inputNumber [(ngModel)]="tipoEpi.minimo" [min]="0" [max]="1000"
+                        [maxlength]="4"> </p-inputNumber>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template let-tipoEpi pTemplate="gridItem">
+        <div class="p-col-12 p-md-4">
+            <div class="product-grid-item card">
+                <div class="product-grid-item-content">
+                    <img [src]="'assets/resources/epis/' + tipoEpi.image" [alt]="tipoEpi.descripcion"/>
+                    <div class="product-name">{{tipoEpi.descripcion}}</div>
+                    <div class="dropdown">
+    <p-inputNumber [(ngModel)]="tipoEpi.minimo" [min]="0" [max]="1000"
+                        [maxlength]="4"> </p-inputNumber>
+                    </div>
+                </div>
+                <div class="product-grid-item-bottom">
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-dataView>
+</div>
+<div class="p-pt-3 p-pl-2" style="width: max-content;">
+    <button pButton type="button" icon="pi pi-plus" iconPos="left" label="Guardar" style="width: 100%" (click)="guardar()"></button>
+</div>

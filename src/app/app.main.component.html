@@ -6,12 +6,12 @@
                 'layout-fullwidth': app.wrapperMode, 'p-input-filled': app.inputStyle === 'filled', 'p-ripple-disabled': !app.ripple}" [class]="app.layout">
 
     <div class="layout-content-wrapper">
-
+        
+        <p-toast position="top-right"></p-toast>
+        
         <app-topbar [usuarioLogueado] = "usuario" (logoutEmit) = "logout($event)"></app-topbar>
 
-        <!-- <app-menu></app-menu>
-
-        <app-actionbar></app-actionbar>
+        <app-menu [usuarioLogueado] = "usuario"></app-menu>
 
         <div class="layout-content">
             <router-outlet></router-outlet>
@@ -19,8 +19,6 @@
 
         <app-footer></app-footer>
 
-        <app-config></app-config>
-
-        <div class="layout-mask"></div> -->
+        <div class="layout-mask"></div>
     </div>
 </div>

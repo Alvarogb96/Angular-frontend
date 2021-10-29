@@ -1,0 +1,5 @@
+<div class="card">
+    <h5 *ngIf="stackedData.labels.length === 0">No hay solicitudes de equipos de protección individual registradas en el sistema</h5>
+    <h5 *ngIf="stackedData.labels.length > 0">Solicitudes de equipos de protección por mes</h5>
+    <p-chart *ngIf = "mostrar && stackedData.labels.length > 0" type="bar" [data]="stackedData" [options]="stackedOptions"></p-chart>
+</div>

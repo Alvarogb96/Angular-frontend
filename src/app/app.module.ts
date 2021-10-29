@@ -5,6 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {AppRoutingModule} from './app-routing.module';
+import { DatePipe } from '@angular/common';
 
 // PrimeNG Components for demos
 import {AccordionModule} from 'primeng/accordion';
@@ -86,6 +87,10 @@ import {TreeModule} from 'primeng/tree';
 import {TreeTableModule} from 'primeng/treetable';
 import {VirtualScrollerModule} from 'primeng/virtualscroller';
 
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+
 // Application Components
 import {AppComponent} from './app.component';
 import {AppMainComponent} from './app.main.component';
@@ -96,60 +101,41 @@ import {AppConfigComponent} from './app.config.component';
 import {AppTopBarComponent} from './app.topbar.component';
 import {AppFooterComponent} from './app.footer.component';
 
-// Demo pages
-import {AppCodeModule} from './app.code.component';
-import {DashboardDemoComponent} from './demo/view/dashboarddemo.component';
-import {FormLayoutDemoComponent} from './demo/view/formlayoutdemo.component';
-import {FloatLabelDemoComponent} from './demo/view/floatlabeldemo.component';
-import {InputDemoComponent} from './demo/view/inputdemo.component';
-import {InvalidStateDemoComponent} from './demo/view/invalidstatedemo.component';
-import {ButtonDemoComponent} from './demo/view/buttondemo.component';
-import {TableDemoComponent} from './demo/view/tabledemo.component';
-import {ListDemoComponent} from './demo/view/listdemo.component';
-import {TreeDemoComponent} from './demo/view/treedemo.component';
-import {PanelsDemoComponent} from './demo/view/panelsdemo.component';
-import {OverlaysDemoComponent} from './demo/view/overlaysdemo.component';
-import {MediaDemoComponent} from './demo/view/mediademo.component';
-import {MenusDemoComponent} from './demo/view/menusdemo.component';
-import {MessagesDemoComponent} from './demo/view/messagesdemo.component';
-import {MiscDemoComponent} from './demo/view/miscdemo.component';
-import {EmptyDemoComponent} from './demo/view/emptydemo.component';
-import {ChartsDemoComponent} from './demo/view/chartsdemo.component';
-import {FileDemoComponent} from './demo/view/filedemo.component';
-import {DocumentationComponent} from './demo/view/documentation.component';
-import {DisplayComponent} from './utilities/display.component';
-import {ElevationComponent} from './utilities/elevation.component';
-import {FlexboxComponent} from './utilities/flexbox.component';
-import {GridComponent} from './utilities/grid.component';
-import {IconsComponent} from './utilities/icons.component';
-import {WidgetsComponent} from './utilities/widgets.component';
-import {SpacingComponent} from './utilities/spacing.component';
-import {TypographyComponent} from './utilities/typography.component';
-import {TextComponent} from './utilities/text.component';
-import {AppCrudComponent} from './pages/app.crud.component';
-import {AppCalendarComponent} from './pages/app.calendar.component';
-import {AppInvoiceComponent} from './pages/app.invoice.component';
-import {AppHelpComponent} from './pages/app.help.component';
-import {AppNotfoundComponent} from './pages/app.notfound.component';
-import {AppErrorComponent} from './pages/app.error.component';
-import {AppAccessdeniedComponent} from './pages/app.accessdenied.component';
-import {AppTimelineDemoComponent} from './pages/app.timelinedemo.component';
-import {AppLoginComponent} from './pages/app.login.component';
-
-import {CountryService} from './demo/service/countryservice';
-import {CustomerService} from './demo/service/customerservice';
-import {EventService} from './demo/service/eventservice';
-import {IconService} from './demo/service/iconservice';
-import {NodeService} from './demo/service/nodeservice';
-import {PhotoService} from './demo/service/photoservice';
-import {ProductService} from './demo/service/productservice';
 import {BreadcrumbService} from './app.breadcrumb.service';
 import {MenuService} from './app.menu.service';
 import { LoginComponent } from './components/login/login.component';
 
 import { ReactiveFormsModule } from "@angular/forms";
-import { ConfirmationService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { DatosgeneralesComponent } from './components/datosgenerales/datosgenerales.component';
+import { TestsComponent } from './components/tests/tests.component';
+import { NoticiasComponent } from './components/noticias/noticias.component';
+import { SolicitudepiComponent } from './components/solicitudepi/solicitudepi.component';
+import { SolicitudesEpiComponent } from './components/solicitudes-epi/solicitudes-epi.component';
+import { GestionbajaComponent } from './components/gestionbaja/gestionbaja.component';
+import { AltaEmpleadoComponent } from './components/alta-empleado/alta-empleado.component';
+import { EmpleadosComponent } from './components/empleados/empleados.component';
+import { DetalleEmpleadoComponent } from './components/detalle-empleado/detalle-empleado.component';
+import { EmpleadosSolicitudesEpiComponent } from './components/empleados-solicitudes-epi/empleados-solicitudes-epi.component';
+import { EmpleadosSolicitudesBajaComponent } from './components/empleados-solicitudes-baja/empleados-solicitudes-baja.component';
+import { DetalleSolicitudEmpleadoComponent } from './components/detalle-solicitud-empleado/detalle-solicitud-empleado.component';
+import { DetalleSolicitudBajaComponent } from './components/detalle-solicitud-baja/detalle-solicitud-baja.component';
+import { AltaNoticiaComponent } from './components/alta-noticia/alta-noticia.component';
+import { AltaEpiComponent } from './components/alta-epi/alta-epi.component';
+import { InventarioEpisComponent } from './components/inventario-epis/inventario-epis.component';
+import { SolicitudesEpiAnalisisComponent } from './components/analisis/solicitudes-epi-analisis/solicitudes-epi-analisis.component';
+import { BajasAnalisisComponent } from './components/analisis/bajas-analisis/bajas-analisis.component';
+import { EpisAnalisisComponent } from './components/analisis/epis-analisis/epis-analisis.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DatepickerModule } from './core/datepicker/datepicker.module';
+import { VacunasComponent } from './components/vacunas/vacunas.component';
+import { VacunasAnalisisComponent } from './components/analisis/vacunas-analisis/vacunas-analisis.component';
+import { StockMinimoComponent } from './components/stock-minimo/stock-minimo.component';
 
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http);
+  }
 
 
 @NgModule({
@@ -237,8 +223,17 @@ import { ConfirmationService } from 'primeng/api';
         TreeModule,
         TreeTableModule,
         VirtualScrollerModule,
-        AppCodeModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        TranslateModule.forRoot({
+            defaultLanguage: 'es',
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        NgbModule,
+        DatepickerModule
     ],
     declarations: [
         AppComponent,
@@ -249,50 +244,33 @@ import { ConfirmationService } from 'primeng/api';
         AppFooterComponent,
         AppConfigComponent,
         AppActionBarComponent,
-        DashboardDemoComponent,
-        FormLayoutDemoComponent,
-        FloatLabelDemoComponent,
-        InputDemoComponent,
-        InvalidStateDemoComponent,
-        ButtonDemoComponent,
-        TableDemoComponent,
-        ListDemoComponent,
-        TreeDemoComponent,
-        PanelsDemoComponent,
-        OverlaysDemoComponent,
-        MediaDemoComponent,
-        MenusDemoComponent,
-        MessagesDemoComponent,
-        MessagesDemoComponent,
-        MiscDemoComponent,
-        ChartsDemoComponent,
-        EmptyDemoComponent,
-        FileDemoComponent,
-        DocumentationComponent,
-        DisplayComponent,
-        ElevationComponent,
-        FlexboxComponent,
-        GridComponent,
-        IconsComponent,
-        WidgetsComponent,
-        SpacingComponent,
-        TypographyComponent,
-        TextComponent,
-        AppCrudComponent,
-        AppCalendarComponent,
-        AppLoginComponent,
-        AppInvoiceComponent,
-        AppHelpComponent,
-        AppNotfoundComponent,
-        AppErrorComponent,
-        AppTimelineDemoComponent,
-        AppAccessdeniedComponent,
         LoginComponent,
+        DatosgeneralesComponent,
+        TestsComponent,
+        NoticiasComponent,
+        SolicitudepiComponent,
+        SolicitudesEpiComponent,
+        GestionbajaComponent,
+        AltaEmpleadoComponent,
+        EmpleadosComponent,
+        DetalleEmpleadoComponent,
+        EmpleadosSolicitudesEpiComponent,
+        EmpleadosSolicitudesBajaComponent,
+        DetalleSolicitudEmpleadoComponent,
+        DetalleSolicitudBajaComponent,
+        AltaNoticiaComponent,
+        AltaEpiComponent,
+        InventarioEpisComponent,
+        SolicitudesEpiAnalisisComponent,
+        BajasAnalisisComponent,
+        EpisAnalisisComponent,
+        VacunasComponent,
+        VacunasAnalisisComponent,
+        StockMinimoComponent,
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, MenuService, BreadcrumbService, ConfirmationService
+        MenuService, BreadcrumbService, ConfirmationService, DatePipe, MessageService
     ],
     bootstrap: [AppComponent]
 })
