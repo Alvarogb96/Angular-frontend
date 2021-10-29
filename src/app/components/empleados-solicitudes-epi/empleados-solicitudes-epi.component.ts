@@ -127,12 +127,12 @@ export class EmpleadosSolicitudesEpiComponent implements OnInit {
       if(res != null && res != undefined){
         this.empleado = this.utilsService.asignarEmpleado(res.empleado);
       }
-      
+      this.connectionService.getMaterialesSolicitudEPI(solicitud.id_solicitud).subscribe(res => {
+        this.materiales = res.materialesSolicitud;
+        this.mostrarDetalle = true;
+      });
     }));
-    this.connectionService.getMaterialesSolicitudEPI(solicitud.id_solicitud).subscribe(res => {
-      this.materiales = res.materialesSolicitud;
-      this.mostrarDetalle = true;
-    });
+    
     
   }
 

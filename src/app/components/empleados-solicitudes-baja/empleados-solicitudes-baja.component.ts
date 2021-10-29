@@ -9,6 +9,7 @@ import { SOLICITUD_BAJA_BLANK } from 'src/app/core/interfaces/baja';
 import { DetalleSolicitudEmpleadoComponent } from '../detalle-solicitud-empleado/detalle-solicitud-empleado.component';
 import { USUARIO_BLANK } from 'src/app/core/interfaces/usuario';
 import { DetalleSolicitudBajaComponent } from '../detalle-solicitud-baja/detalle-solicitud-baja.component';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-empleados-solicitudes-baja',
@@ -31,6 +32,7 @@ export class EmpleadosSolicitudesBajaComponent implements OnInit {
   fechaBaja: any;
   fechaAlta: any;
   solBaja = SOLICITUD_BAJA_BLANK();
+  empleado = USUARIO_BLANK();
 
   first = 0;
   rows = 5;
@@ -126,8 +128,14 @@ export class EmpleadosSolicitudesBajaComponent implements OnInit {
   }
 
   getSolicitud(solicitud){
-    this.solicitud = solicitud;
-    this.mostrarDetalle = true;    
+    this.connectionService.getEmpleadoById(solicitud.id_empleado).subscribe((res => {
+      if(res != null && res != undefined){
+        this.empleado = this.utilsService.asignarEmpleado(res.empleado);
+      }
+      this.solicitud = solicitud;
+      this.mostrarDetalle = true; 
+    }));
+       
   }
 
   cerrarDetalle(event){
@@ -202,6 +210,21 @@ export class EmpleadosSolicitudesBajaComponent implements OnInit {
   cancel(){
     this.mostrarAltaBaja = false;
   }
+
+  download(solicitud) {
+    if (solicitud.archivo_solicitud_baja !== undefined && solicitud.archivo_solicitud_baja !== null) {
+      var nombreArchivo = solicitud.archivo_solicitud_baja;
+      this.connectionService.downloadSolicitudBaja(nombreArchivo).toPromise()
+        .then(blob => {
+          saveAs(blob, nombreArchivo);
+        })
+        .catch(err => console.error("download error = ", err))
+    } else {
+      this.messageService.add({severity:'error', summary: constantes.MENSAJE_ERROR_ARCHIVO_SOLICITUD_BAJA_HEADER, 
+          detail:constantes.MENSAJE_ERROR_ARCHIVO_SOLICITUD_BAJA, life:5000});
+    }
+  }
+
   //Paginación
   paginacion(list){
     this.totalRecords = list.length;

@@ -15,11 +15,18 @@ import { ConnectionService } from 'src/app/core/services/connection/connection.s
 export class DetalleSolicitudBajaComponent implements OnInit {
 
   @Input() public solicitud;
+  @Input() public empleado;
   @Output() public cerrarDetalle = new EventEmitter();
   mostrar:boolean;
-  
+  role: string = '';
 
   formModel = this.fb.group({
+    nombre:[null,[]],
+    apellido1 : [null,[]],
+    apellido2: [null,[]],
+    nif:[null, []],
+    email:[null, []],
+    role: [null,[]],
     fechaSolicitud:[null,[]],
     fechaAprobacion : [null,[]],
     fechaBaja: [null,[]],
@@ -29,6 +36,7 @@ export class DetalleSolicitudBajaComponent implements OnInit {
   constructor(private fb: FormBuilder, private utilsService: UtilsService, private connectionService: ConnectionService, private messageService: MessageService) { }
 
   ngOnInit(): void {
+    this.role = this.utilsService.getRole(this.empleado.role);
     this.mostrar = true;
   }
 

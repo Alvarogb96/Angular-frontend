@@ -55,7 +55,7 @@
 								
 							</div>
 						</th>
-						<th pSortableColumn="aprobada" style="width: 12%">
+						<th pSortableColumn="aprobada" style="width: 15%">
 							<div class="p-d-flex p-jc-between p-ai-center">
 								Estado
 								<p-sortIcon field="aprobada"></p-sortIcon>
@@ -69,12 +69,17 @@
 								
 							</div>
 						</th>
-                        <th style="width: 6%">
+                        <th style="width: 10%">
 							<div class="p-d-flex p-jc-between p-ai-center">
 								Detalle
 							</div>
 						</th>
-                        <th style="width: 13%">
+                        <th style="width: 10%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Descargar archivo
+							</div>
+						</th>
+                        <th style="width: 15%">
                             <div class="p-d-flex p-jc-between p-ai-center">
 								Aprobar/Rechazar
 							</div>
@@ -113,6 +118,10 @@
                             <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-mr-2" (click)="getSolicitud(solicitud)"></button>
                             
                         </td>
+                        <td>
+                            <span class="p-column-title">Descargar archivo</span>
+                            <button pButton pRipple icon="pi pi-download" class="p-button-rounded p-mr-2" (click)="download(solicitud)"></button>
+                        </td>
                         <td *ngIf="solicitud.aprobada === 'En revisión'">
                             <span class="p-column-title">Aprobar/Rechazar</span>
                             <button pButton pRipple type="button" icon="pi pi-check" class="p-button-rounded p-button-text" (click)="aprobarSolicitud(solicitud)"></button>
@@ -131,7 +140,7 @@
 			</p-table> 
 		</div>
 	</div>
-    <app-detalle-solicitud-baja #detalleSolicitudBaja *ngIf="mostrarDetalle"  (cerrarDetalle) = "cerrarDetalle($event)" [solicitud]="solicitud"></app-detalle-solicitud-baja>
+    <app-detalle-solicitud-baja #detalleSolicitudBaja *ngIf="mostrarDetalle"  (cerrarDetalle) = "cerrarDetalle($event)" [solicitud]="solicitud" [empleado]="empleado"></app-detalle-solicitud-baja>
     <p-dialog [(visible)]="mostrarAltaBaja" [style]="{width: '40%'}"  header="Fechas de alta y baja" styleClass="my-style-class" (onHide)="cancel()">
         <ng-template pTemplate="content">
         <form [formGroup]="formModel">
