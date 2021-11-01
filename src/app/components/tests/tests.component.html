@@ -80,7 +80,10 @@
 								Descargar Test
 							</div>
 						</th>
-						<th style="width: 10%"></th>
+						<th style="width: 10%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Acciones
+							</div></th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-test>
@@ -106,6 +109,7 @@
                             <button pButton pRipple icon="pi pi-download" class="p-button-rounded p-mr-2" (click)="download(test)"></button>
                         </td>
 						<td>
+							<span class="p-column-title">Acciones</span>
 							<button  pButton pRipple icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top" class="p-button-rounded p-mr-2" (click)="mostrarEditarTest(test)"></button>
 							<button  pButton pRipple icon="pi pi-trash" pTooltip="Eliminar" tooltipPosition="top" class="p-button-rounded" (click)="eliminarTest(test)"></button>
 						</td>

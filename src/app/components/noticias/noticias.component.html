@@ -73,24 +73,24 @@
 </div>
 <p-dialog [(visible)]="mostrar" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '70%'}" header="Visualizar/Editar noticia" [modal]="true" styleClass="p-fluid" (onHide)="cancel()">
     <ng-template pTemplate="content">
-		<form [formGroup]="formModel">
+		<form [formGroup]="formModelEdit">
         <div class="p-field">
             <label for="name">TÍtulo</label>
-			<input [readonly] = "detalle" type="text" formControlName="titulo" [(ngModel)]="noticia.titulo" maxlength="45" required pInputText>
-            <small class="p-error" *ngIf=" !noticia.titulo && !detalle">Título obligatorio.</small>
+			<input [readonly] = "detalle" type="text" formControlName="titulo" [(ngModel)]="noticiaEdit.titulo" maxlength="45" required pInputText>
+            <small class="p-error" *ngIf=" !noticiaEdit.titulo && !detalle">Título obligatorio.</small>
         </div>
 		<div class="p-field" >
 			<label for="description">Descripción</label>
-			<textarea [readonly] = "detalle" rows="5" pInputTextarea [(ngModel)]="noticia.descripcion" formControlName="descripcion" maxlength="255"
+			<textarea [readonly] = "detalle" rows="5" pInputTextarea [(ngModel)]="noticiaEdit.descripcion" formControlName="descripcion" maxlength="255"
 				required></textarea>
-			<small class="p-error" *ngIf="!noticia.descripcion && !detalle">Descripción obligatoria.</small>
+			<small class="p-error" *ngIf="!noticiaEdit.descripcion && !detalle">Descripción obligatoria.</small>
 		</div>
 		</form>
     </ng-template>
     
     <ng-template pTemplate="footer">
         <button *ngIf="!detalle" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="cancel()"></button>
-        <button *ngIf="!detalle" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="guardarNoticia(noticia)"></button>
+        <button *ngIf="!detalle" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="guardarNoticia(noticiaEdit)"></button>
 		<button *ngIf="detalle" pButton pRipple label="Aceptar" icon="pi pi-check" class="p-button-text" (click)="cancel()"></button>
 	</ng-template>
 </p-dialog>

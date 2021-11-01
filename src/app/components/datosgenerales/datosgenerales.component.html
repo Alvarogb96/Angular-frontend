@@ -25,7 +25,7 @@
                 <input id="nif6" [readonly]= "edit" type="text" formControlName="nif" [(ngModel)]="usuario.nif" maxlength="9"  minlength="9" pInputText>
                 <small class="p-error" *ngIf="!edit && this.formModel.get('nif').invalid">{{getNifErrorMessage()}}</small>
             </div>
-            <div class="p-field p-col-12 p-md-6">
+            <div class="p-field p-col-12 p-md-6" *ngIf="role != 'C' && edit">
                 <label for="email6">Correo electrónico</label>
                 <input id="email6"  readonly= "true" type="text" formControlName="email" [(ngModel)]="usuario.email"pInputText>
             </div>
@@ -35,14 +35,14 @@
                 <input *ngIf="edit" id="fechaNacimiento6" readonly = "true" type="text" formControlName="fechaNac" [(ngModel)]="usuario.fecha_nacimiento" pInputText>
                 <small class="p-error" *ngIf="!edit && this.formModel.get('fechaNac').invalid">{{getFechaNacimientoErrorMessage()}}</small>
             </div>
-            <div class="p-field p-col-12 p-md-6">
+            <div class="p-field p-col-12 p-md-6" *ngIf="role != 'C' && edit">
                 <label for="fechaIncorporacion6">Fecha alta en el sistema</label>
                 <input id="fechaIncorporacion6" readonly= "true" type="text" formControlName="fechaAlta" [(ngModel)]="usuario.fecha_alta"pInputText>
             </div>
         </div>
     </form>
-         <h5 *ngIf="role != 'C'">Jornada laboral</h5>
-         <form *ngIf="role != 'C'" [formGroup]="formModel">
+         <h5 *ngIf="role != 'C' && edit">Jornada laboral</h5>
+         <form *ngIf="role != 'C' && edit" [formGroup]="formModel">
             <div class="p-fluid p-formgrid p-grid" *ngIf = "usuario != undefined">
                 <div class="p-field p-col-12 p-md-4">
                     <label>Hora inicio</label>
@@ -60,8 +60,8 @@
          </form>
 
          <h5 *ngIf="role === 'C'">Información general</h5>
-         <h5 *ngIf="role !== 'C'">Información sucursal</h5>
-         <form [formGroup]="formModel">
+         <h5 *ngIf="role != 'C' && edit">Información sucursal</h5>
+         <form [formGroup]="formModel" *ngIf="role === 'C' || role != 'C' && edit">
          <div class="p-fluid p-formgrid p-grid" *ngIf = "sucursal != undefined ||usuario !=undefined">
              <div class="p-field p-col-12 p-md-6">
                  <label for="nombre6">Nombre</label>
@@ -118,8 +118,11 @@
                     <label>Repita la contraseña</label>
                     <input type="password" pPassword [feedback] = "false" [(ngModel)]="usuarioCambioPassword.newPassword2" strongRegex formControlName="newPassword2"/>
                     <small class="p-error" *ngIf="this.formModelPassword.get('newPassword2').invalid || this.comprobarPasswordIguales()">{{getNewPassword2Message()}}</small>
-                </div>    
-                <p class="p-mt-2">La nueva contraseña debe contener</p>
+                </div>   
+                <div class="p-field p-col-12 p-md-12">
+                <p class="p-mt-2">La nueva contraseña debe contener:</p>
+                </div> 
+                <div class="p-field p-col-12 p-md-12">
                 <ul class="p-pl-2 p-ml-2 p-mt-0" style="line-height: 1.5">
                     <li>Al menos una minúscula</li>
                     <li>Al menos una mayúscula</li>
@@ -127,6 +130,7 @@
                     <li>Al menos un carácter especial</li>
                     <li>Longitud mínima 8</li>
                 </ul>
+                </div>
             </div>
         </form>
         </ng-template>
@@ -139,10 +143,10 @@
 
 <div class="p-formgroup-inline p-pt-3 p-pl-2">
     <div class="p-field">
-        <button *ngIf="role !== 'C'" pButton type="button" icon="pi pi-pencil" iconPos="left" label="Editar datos" style="width: 100%" (click)="editar()" [disabled]="!edit"></button>
+        <button *ngIf="role !== 'C' && edit" pButton type="button" icon="pi pi-pencil" iconPos="left" label="Editar datos" style="width: 100%" (click)="editar()"></button>
     </div>
     <div class="p-field">
-        <button pButton type="button" icon="pi pi-pencil" iconPos="left" label="Cambiar contraseña" style="width: 100%" (click)="cambiarPassword()"></button>
+        <button *ngIf="edit" pButton type="button" icon="pi pi-pencil" iconPos="left" label="Cambiar contraseña" style="width: 100%" (click)="cambiarPassword()"></button>
     </div>
     <div class="p-field">
         <button *ngIf="!edit" pButton type="button" icon="pi pi-save" iconPos="left" label="Guardar cambios" style="width: 100%" (click)="guardarCambios()"  [disabled]="!isValidForm()"></button>

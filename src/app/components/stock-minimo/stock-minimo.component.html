@@ -1,5 +1,6 @@
 <div class="p-col-12">
-
+    <p-confirmDialog  key='stock'
+    [style]="{width: '50%'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
     <div class="card">
         <h5>Stock mínimo de cada tipo de equipo de protección individual</h5>    
         <p-dataView #dv *ngIf="tiposEpi.length > 0 && mostrar"[value]="tiposEpi" [paginator]="false" [rows]="6" filterBy="descripcion"

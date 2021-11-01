@@ -204,7 +204,8 @@ export class DatosgeneralesComponent implements OnInit {
   }
 
   isValidForm(){
-    return this.formModel.valid && this.usuario.fecha_nacimiento != '' && this.usuario.fecha_nacimiento != null;
+    return this.formModel.get('nombre').valid && this.formModel.get('apellido1').valid &&  this.formModel.get('apellido2').valid && this.formModel.get('nif').valid && 
+    this.formModel.get('fechaNac').valid;
   }
 
   isValidFormPassword(){

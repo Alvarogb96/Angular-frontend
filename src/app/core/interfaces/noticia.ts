@@ -10,9 +10,9 @@ export interface Noticia {
 
 export function NOTICIA_BLANK(): Noticia {
     const aux = {
-        id_noticia: '',
-        titulo: '',
-        descripcion: '',
+        id_noticia: null,
+        titulo: null,
+        descripcion: null,
         fecha_creacion: null,
         fecha_actualizacion: null,
         oculto: null,

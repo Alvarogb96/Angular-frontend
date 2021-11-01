@@ -20,12 +20,18 @@ export class NoticiasComponent implements OnInit {
   rows = 5;
   totalRecords: any;
   id: any;
-  noticia: any;
 
   mostrar: boolean = false;
   detalle: boolean;
 
+  noticiaEdit = NOTICIA_BLANK();
+
   formModel = this.fb.group({
+    titulo:[null, [Validators.required,Validators.maxLength(45)]],
+    descripcion : [null, [Validators.required, Validators.maxLength(255)]],
+  });
+
+  formModelEdit = this.fb.group({
     titulo:[null, [Validators.required,Validators.maxLength(45)]],
     descripcion : [null, [Validators.required, Validators.maxLength(255)]],
   });
@@ -77,13 +83,17 @@ export class NoticiasComponent implements OnInit {
   }
 
   editarNoticia(noticia){
-    this.noticia = noticia;
+    this.noticiaEdit.descripcion = noticia.descripcion;
+    this.noticiaEdit.titulo = noticia.titulo;
+    this.noticiaEdit.id_noticia = noticia.id_noticia;
+    this.noticiaEdit.id_sucursal = noticia.id_sucursal;
     this.mostrar = true;
     this.detalle = false;
   }
 
   verNoticia(noticia){
-    this.noticia = noticia;
+    this.noticiaEdit.descripcion = noticia.descripcion;
+    this.noticiaEdit.titulo = noticia.titulo;
     this.mostrar = true;
     this.detalle = true;
   }

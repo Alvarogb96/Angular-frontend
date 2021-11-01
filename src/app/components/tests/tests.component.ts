@@ -165,7 +165,7 @@ export class TestsComponent implements OnInit {
 
   isValidForm(){
     return this.formModel.get('fechaTest').valid && this.formModel.get('tipo').valid  && 
-    this.formModel.get('resultado').valid && this.formModel.get('resultado').valid && this.tipoTestSelected != undefined;
+    this.formModel.get('resultado').valid && this.formModel.get('clinica').valid && this.tipoTestSelected != undefined;
   }
 
   eliminarTest(test){

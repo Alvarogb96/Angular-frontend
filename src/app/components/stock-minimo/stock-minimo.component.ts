@@ -62,18 +62,26 @@ export class StockMinimoComponent implements OnInit {
   }
 
   guardar(){
-    this.utilsService.confirm('altaEpi', constantes.MENSAJE_GUARDAR_SOLICITUD_EPI, constantes.MENSAJE_GUARDAR_SOLICITUD_EPI_HEADER).subscribe(res => {
+    this.utilsService.confirm('stock', constantes.MENSAJE_GUARDAR_SOLICITUD_EPI, constantes.MENSAJE_GUARDAR_SOLICITUD_EPI_HEADER).subscribe(res => {
     for(var tipoEpi of this.tiposEpi){
       var stockMinimo = STOCK_MINIMO_BLANK();
       if(tipoEpi.idsucursales_stock_epi != null){
         stockMinimo.idsucursales_stock_epi = tipoEpi.idsucursales_stock_epi;
-        stockMinimo.minimo = tipoEpi.minimo;
         stockMinimo.fecha_actualizacion = this.utilsService.parseFechaHora(new Date());
+        if(tipoEpi.minimo === "" || tipoEpi.minimo === undefined || tipoEpi.minimo === null || tipoEpi.minimo < 0){
+          stockMinimo.minimo = '0';
+        } else {
+          stockMinimo.minimo = tipoEpi.minimo;
+        }
       } else {
         stockMinimo.id_tipo_epi = tipoEpi.id_tipo_epi;
         stockMinimo.id_sucursal = this.utilsService.getIdUsuario();
         stockMinimo.fecha_creacion = this.utilsService.parseFechaHora(new Date());
-        stockMinimo.minimo = tipoEpi.minimo;
+        if(tipoEpi.minimo === "" || tipoEpi.minimo === undefined || tipoEpi.minimo === null || tipoEpi.minimo < 0){
+          stockMinimo.minimo = '0';
+        } else {
+          stockMinimo.minimo = tipoEpi.minimo;
+        }
       }
       this.stockEpis.push(stockMinimo);
       
@@ -81,6 +89,8 @@ export class StockMinimoComponent implements OnInit {
     this.connectionService.saveStockMinimo(this.stockEpis).subscribe((res => {
       this.messageService.add({severity:'success', summary: constantes.MENSAJE_GUARDAR_STOCK_CORRECTO_HEADER, 
             detail:constantes.MENSAJE_GUARDAR_STOCK_CORRECTO, life: 5000});
+      this.tiposEpi = [];
+      this.getTiposEpi();
     }),(err => {
       this.messageService.add({severity:'info', summary: constantes.MENSAJE_GUARDAR_SOLICITUD_ERROR_HEADER, 
       detail:err.error.message, life: 5000});

@@ -46,7 +46,7 @@ export class AltaEpiComponent implements OnInit {
   }
 
   isValidForm(){
-    return this.formModel.valid && this.tipoEpiSelected !== "";
+    return this.formModel.get('tipo').valid && this.tipoEpiSelected !== "" && this.formModel.get('lote').valid && this.formModel.get('cantidad').valid && this.formModel.get('fecha_disponibilidad').valid;
   }
 
   addEpi(){
