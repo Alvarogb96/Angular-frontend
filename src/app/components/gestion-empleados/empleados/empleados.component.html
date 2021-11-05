@@ -1,0 +1,179 @@
+<div class="p-grid table-demo">
+	<div class="p-col-12">
+		<div class="card">
+			<h5>Filtro de búsqueda</h5>
+				<div class="p-fluid p-formgrid p-grid">
+					<div class="p-field p-col-12 p-md-3">
+						<div class="p-field-radiobutton">
+							<p-radioButton value="Empresa" [(ngModel)]="filtroBusqueda"></p-radioButton>
+							<label>Empresa</label>
+						</div>
+						<div class="p-field-radiobutton">
+							<p-radioButton value="Sucursal" [(ngModel)]="filtroBusqueda"></p-radioButton>
+							<label>Sucursal</label>
+						</div>
+					</div>  
+					<div class="p-field p-col-12 p-md-3">
+						<label>Sucursal</label>
+						<p-dropdown [options]="sucursalSel" [(ngModel)]="filtrosBusqueda.sucursal" optionLabel="nombre"  optionValue="id_sucursal" 
+						placeholder="Seleccione la sucursal" emptyMessage = "No se han encontrado resultados" [disabled]="filtroBusqueda === 'Empresa'"></p-dropdown>
+					</div>         
+				</div>
+	
+			<div class="p-pt-5 p-pb-5" style="width: max-content;">
+				<button pButton type="button" icon="pi pi-search" iconPos="left" label="Buscar" style="width: 100%" (click)="obtenerEmpleados()"></button>
+			</div>
+			<h5 *ngIf="empleados.length === 0">No hay empleados registrados en el sistema</h5>
+			<p-table #dt *ngIf="empleados.length > 0"[value]="empleados" dataKey="id"
+					 styleClass="p-datatable-customers" [rowHover]="true" [rows]="5" [paginator]="true"
+					 [filterDelay]="0" [globalFilterFields]="['nombre','apellido1','apellido2','nif','email','fechaAlta']" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5,10,15]" styleClass="p-datatable-responsive-demo">
+				<ng-template pTemplate="caption">
+					<div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+						<h5>Empleados</h5>
+						<span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+						   placeholder="Búsqueda"/>
+                </span>
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header">
+					<tr>
+                        <th pSortableColumn="id_usuario" style="width: 5%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								ID
+							</div>
+						</th>
+						<th pSortableColumn="nombre" style="width: 10%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Nombre
+								<p-sortIcon field="nombre"></p-sortIcon>
+							</div>
+						</th>
+						<th pSortableColumn="apellido1" style="width: 15%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Primer apellido
+								<p-sortIcon field="apellido1"></p-sortIcon>
+							</div>
+						</th>
+						<th pSortableColumn="apellido2" style="width: 15%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Segundo apellido
+								<p-sortIcon field="apellido2"></p-sortIcon>
+							</div>
+						</th>
+                        <th pSortableColumn="nif" style="width: 15%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								DNI/NIF/NIE
+								<p-sortIcon field="nif"></p-sortIcon>
+							</div>
+						</th>
+                        <th pSortableColumn="email"style="width: 15%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Correo electrónico
+								<p-sortIcon field="email"></p-sortIcon>
+							</div>
+						</th>
+                        <th pSortableColumn="fecha_alta"style="width: 15%">
+							<div class="p-d-flex p-jc-between p-ai-center">
+								Fecha alta en sistema
+								<p-sortIcon field="fecha_alta"></p-sortIcon>
+							</div>
+						</th>
+						<th>
+							<div class="p-d-flex p-jc-between p-ai-center" style="width: 7%">
+								Acciones
+							</div>
+						</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-empleado>
+					<tr class="p-selectable-row">					
+						<td>
+							<span class="p-column-title">Identificador</span>
+							{{empleado.id_usuario}}
+						</td>
+						<td>
+							<span class="p-column-title">Nombre</span>
+							{{empleado.nombre}}
+						</td>
+						<td>
+							<span class="p-column-title">Primer apellido</span>
+							{{empleado.apellido1}}
+						</td>
+						<td>
+							<span class="p-column-title">Segundo apellido</span>
+							{{empleado.apellido2}}
+						</td>
+                        <td>
+							<span class="p-column-title">DNI/NIF/NIE</span>
+							{{empleado.nif}}
+						</td>
+                        <td>
+							<span class="p-column-title">Correo electrónico</span>
+							{{empleado.email}}
+						</td>
+                        <td>
+							<span class="p-column-title">Fecha alta en sistema</span>
+							{{empleado.fecha_creacion}}
+						</td>
+						<td>
+							<span class="p-column-title">Acciones</span>
+                            <button pButton pRipple icon="pi pi-eye" pTooltip="Detalle" tooltipPosition="top" class="p-button-rounded p-mr-2" (click)="empleadoDetail(empleado)"></button>
+							<button *ngIf="empleado.id_sucursal === idSucursal"   pButton pRipple icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top" class="p-button-rounded p-mr-2" (click)="empleadoEdit(empleado)"></button>
+
+                        </td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="emptymessage">
+					<tr>
+						<td colspan="8">Sin empleados registrados.</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+   <app-detalle-empleado #detalleEmpleado *ngIf="mostrarDetalleEmpleado" [empleado]="empleado" (cerrarDetalle) = "cerrarDetalle($event)"></app-detalle-empleado>
+</div>
+<p-dialog [(visible)]="mostrarEdicionEmpleado"  [style]="{width: '60%'}" header="Editar"  styleClass="my-style-class" (onHide)="cancel()">
+    <ng-template pTemplate="content">
+		<form [formGroup]="formModelEmpleado">
+			<div class="p-fluid p-formgrid p-grid">
+				<div class="p-field p-col-12 p-md-6">
+					<label>Correo electrónico</label>
+					<input type="text" formControlName="email" [(ngModel)]="empleadoEditado.email" required pInputText>
+					<app-validator-message [model]="formModelEmpleado.get('email')"></app-validator-message>
+				</div>
+				<div class="p-field p-col-12 p-md-6">
+					<label>Role</label>
+					<p-dropdown [options]="roleSel" [(ngModel)]="empleadoEditado.role" optionLabel="name"  optionValue="code" 
+					placeholder="Seleccione role del usuario" emptyMessage = "No se han encontrado resultados" formControlName ="role" required></p-dropdown>
+				</div>  
+			</div>
+		</form>
+    <form [formGroup]="formModelEmpleado">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-12 p-md-4">
+                <label>Hora inicio</label>
+                <p-calendar [(ngModel)]="empleadoEditado.hora_inicio" [timeOnly]="true" formControlName ="horaInicio"></p-calendar>
+				<app-validator-message [model]="formModelEmpleado.get('horaInicio')"></app-validator-message>
+            </div>
+            <div class="p-field p-col-12 p-md-4">
+                <label>Hora fin</label>
+                <p-calendar [(ngModel)]="empleadoEditado.hora_fin" [timeOnly]="true"  formControlName ="horaFin"></p-calendar>
+				<app-validator-message [model]="formModelEmpleado.get('horaFin')"></app-validator-message>
+            </div> 
+            <div class="p-field p-col-12 p-md-4">
+                <label>Horas semanales</label>
+                <p-inputNumber  [(ngModel)]="empleadoEditado.horas_semanales" formControlName ="horasSemanales" [min]="0" [max]="100" required></p-inputNumber>
+				<app-validator-message [model]="formModelEmpleado.get('horasSemanales')"></app-validator-message>
+            </div>        
+        </div>
+    </form>
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Guardar cambios" icon="pi pi-save" class="p-button-text" (click)="guardar()" [disabled]="!isValidForm()"></button>
+    </ng-template>
+</p-dialog>
+

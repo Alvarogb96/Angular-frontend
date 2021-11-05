@@ -1,0 +1,50 @@
+<span class="error" *ngIf="model && model.errors && model.errors.required">
+    Campo obligatorio<br>
+</span>
+<span class="error" *ngIf="model && model.errors && model.errors.minlength">
+    No se ha alcanzado el mínimo de caracteres necesarios<br>
+</span>
+<span class="error" *ngIf="model && model.errors && (model.dirty || model.touched)  && model.errors.maxlength">
+    Limite de caracteres superado<br>
+</span>
+<span class="error" *ngIf="model && model.errors && (model.dirty || model.touched)  && model.errors.min && model.errors.min.min === 0">
+    El valor no puede ser negativo. <br>
+</span>
+<span class="error" *ngIf="model && model.errors && (model.dirty || model.touched)  && model.errors.min && model.errors.min.min > 0">
+    El valor debe ser como mínimo {{model.errors.min.min}}<br>
+</span>
+<span class="error" *ngIf="model && model.errors &&(model.dirty || model.touched)  && model.errors.max">
+    El valor no debe ser superior a {{model.errors.max.max}}.<br>
+</span>
+<span class="error" *ngIf="model && model.errors && (model.dirty || model.touched) && model.value  && model.errors.validateDNILetraIncorrecta">
+    Letra incorrecta<br>
+</span>
+<span class="error" *ngIf="model && model.errors && (model.dirty || model.touched) && model.value  && model.errors.formatoDNIIncorrecto">
+    Formato incorrecto. Ej 49132118R<br>
+</span>
+<span class="error" *ngIf="model && model.errors && model.value  && model.errors.formatNIFIncorrect">
+    El identificador no es válido.<br>
+</span>
+<span class="error" *ngIf="model && model.errors && model.value  && model.errors.email">
+    El email no es válido.<br>
+</span>
+<span class="error" *ngIf="model && model.errors && model.value  && model.errors.password">
+    La contraseña no es válida.<br>
+</span>
+<span class="error" *ngIf="model && model.errors && (model.dirty || model.touched) && model.value  && model.errors.formatLetraIncorrect">
+    Introduzca una letra<br>
+</span>
+<span class="error" *ngIf="model && model.errors && (model.dirty || model.touched) && model.value  && model.errors.formatNumericInputIncorrect">
+    Campo numérico<br>
+</span>
+<span class="error"
+    *ngIf="model && model.errors && (model.dirty || model.touched) && model.value  && model.errors.formatNumericPositiveInputIncorrect">
+    Campo numérico positivo<br>
+</span>
+<span class="error" *ngIf="model && model.errors && (model.dirty || model.touched) && model.value  && model.errors.formatTextInputIncorrect">
+    Introduzca una o más letras<br>
+</span>
+<span class="error" *ngIf="model && model.errors && (model.dirty || model.touched) && model.value  && model.errors.formatoPhoneIncorrecto">
+    Formato incorrecto (debe introducir 9 dígitos)<br>
+</span>
+

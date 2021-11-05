@@ -1,0 +1,88 @@
+<div class="p-col-12">
+    <p-confirmDialog  key='altaUsuario'
+                             [style]="{width: '50%'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+    <div class="card">
+        <h5>Alta de un empleado</h5>
+        <form [formGroup]="formModel">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-12 p-md-6">
+                <label>Nombre</label>
+                <input type="text" formControlName="nombre" [(ngModel)]="usuario.nombre" maxlength="40" required pInputText>
+                <app-validator-message [model]="formModel.get('nombre')"></app-validator-message>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label>Primer apellido</label>
+                <input type="text" formControlName="apellido1" [(ngModel)]="usuario.apellido1" maxlength="40" required pInputText>
+                <app-validator-message [model]="formModel.get('apellido1')"></app-validator-message>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label>Segundo apellido</label>
+                <input type="text" formControlName="apellido2" [(ngModel)]="usuario.apellido2" maxlength="40" required pInputText>
+                <app-validator-message [model]="formModel.get('apellido2')"></app-validator-message>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label>DNI / NIF</label>
+                <input type="text" formControlName="nif" [(ngModel)]="usuario.nif" maxlength="9"  minlength="9" required pInputText>
+                <app-validator-message [model]="formModel.get('nif')"></app-validator-message>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label for="fecha6">Fecha de nacimiento</label>
+                <app-datepicker [(date)]="usuario.fecha_nacimiento" [(control)]="formModel.controls.fechaNac" (getDate)="sendDate($event,'fecha_nacimiento')"></app-datepicker>
+            </div>  
+            <div class="p-field p-col-12 p-md-6">
+                <label>Correo electrónico</label>
+                <input type="text" formControlName="email" [(ngModel)]="usuario.email" required pInputText>
+                <app-validator-message [model]="formModel.get('email')"></app-validator-message>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label>Contraseña</label>
+                <input type="password" pPassword [feedback] = "false" [(ngModel)]="usuario.password" strongRegex formControlName="password"/>
+                <small class="p-error" *ngIf="this.formModel.get('password').invalid">{{getNewPasswordMessage()}}</small>
+            </div> 
+            <div class="p-field p-col-12 p-md-6">
+                <label>Repita la contraseña</label>
+                <input type="password" pPassword [feedback] = "false"  strongRegex formControlName="password2"/>
+                <small class="p-error" *ngIf="this.formModel.get('password2').invalid || this.comprobarPasswordIguales()">{{getNewPassword2Message()}}</small>
+            </div>  
+            <div class="p-field p-col-12 p-md-6">
+                <p class="p-mt-2">La contraseña debe contener</p>
+                <ul class="p-pl-2 p-ml-2 p-mt-0" style="line-height: 1.5">
+                    <li>Al menos una minúscula</li>
+                    <li>Al menos una mayúscula</li>
+                    <li>Al menos un número</li>
+                    <li>Al menos un carácter especial</li>
+                    <li>Longitud mínima 8</li>
+                </ul>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label>Role</label>
+                <p-dropdown [options]="roleSel" [(ngModel)]="usuario.role" optionLabel="name"  optionValue="code" 
+                placeholder="Seleccione role del usuario" emptyMessage = "No se han encontrado resultados" formControlName ="role" required></p-dropdown>
+                <app-validator-message [model]="formModel.get('role')"></app-validator-message>
+            </div>  
+        </div>
+    </form>
+    <h5>Jornada</h5>   
+    <form [formGroup]="formModel">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-12 p-md-4">
+                <label>Hora inicio</label>
+                <p-calendar [(ngModel)]="jornada.hora_inicio" [timeOnly]="true" formControlName ="horaInicio"></p-calendar>
+                <app-validator-message [model]="formModel.get('horaInicio')"></app-validator-message>
+            </div>
+            <div class="p-field p-col-12 p-md-4">
+                <label>Hora fin</label>
+                <p-calendar [(ngModel)]="jornada.hora_fin" [timeOnly]="true"  formControlName ="horaFin"></p-calendar>
+                <app-validator-message [model]="formModel.get('horaFin')"></app-validator-message>
+            </div> 
+            <div class="p-field p-col-12 p-md-4">
+                <label>Horas semanales</label>
+                <p-inputNumber  [(ngModel)]="jornada.horas_semanales" formControlName ="horasSemanales" [min]="0" [max]="100" required></p-inputNumber>
+                <app-validator-message [model]="formModel.get('horasSemanales')"></app-validator-message>
+            </div>  
+        </div>
+    </form>
+</div>
+<div class="p-pt-3 p-pl-2" style="width: max-content;">
+    <button pButton type="button" icon="pi pi-user-plus" iconPos="left" label="Guardar" style="width: 100%" (click)="addEmpleado()" [disabled]="!isValidForm() || comprobarPasswordIguales()"></button>
+</div>

@@ -108,30 +108,31 @@ import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule } from "@angular/forms";
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { DatosgeneralesComponent } from './components/datosgenerales/datosgenerales.component';
-import { TestsComponent } from './components/tests/tests.component';
-import { NoticiasComponent } from './components/noticias/noticias.component';
-import { SolicitudepiComponent } from './components/solicitudepi/solicitudepi.component';
-import { SolicitudesEpiComponent } from './components/solicitudes-epi/solicitudes-epi.component';
-import { GestionbajaComponent } from './components/gestionbaja/gestionbaja.component';
-import { AltaEmpleadoComponent } from './components/alta-empleado/alta-empleado.component';
-import { EmpleadosComponent } from './components/empleados/empleados.component';
-import { DetalleEmpleadoComponent } from './components/detalle-empleado/detalle-empleado.component';
-import { EmpleadosSolicitudesEpiComponent } from './components/empleados-solicitudes-epi/empleados-solicitudes-epi.component';
-import { EmpleadosSolicitudesBajaComponent } from './components/empleados-solicitudes-baja/empleados-solicitudes-baja.component';
-import { DetalleSolicitudEmpleadoComponent } from './components/detalle-solicitud-empleado/detalle-solicitud-empleado.component';
-import { DetalleSolicitudBajaComponent } from './components/detalle-solicitud-baja/detalle-solicitud-baja.component';
-import { AltaNoticiaComponent } from './components/alta-noticia/alta-noticia.component';
-import { AltaEpiComponent } from './components/alta-epi/alta-epi.component';
-import { InventarioEpisComponent } from './components/inventario-epis/inventario-epis.component';
-import { SolicitudesEpiAnalisisComponent } from './components/analisis/solicitudes-epi-analisis/solicitudes-epi-analisis.component';
-import { BajasAnalisisComponent } from './components/analisis/bajas-analisis/bajas-analisis.component';
-import { EpisAnalisisComponent } from './components/analisis/epis-analisis/epis-analisis.component';
+import { DatosgeneralesComponent } from './components/gestion-empleados/datosgenerales/datosgenerales.component';
+import { TestsComponent } from './components/gestion-salud/tests/tests.component';
+import { NoticiasComponent } from './components/gestion-empresa/noticias/noticias.component';
+import { SolicitudepiComponent } from './components/gestion-material/solicitudepi/solicitudepi.component';
+import { SolicitudesEpiComponent } from './components/gestion-material/solicitudes-epi/solicitudes-epi.component';
+import { GestionbajaComponent } from './components/gestion-salud/gestionbaja/gestionbaja.component';
+import { AltaEmpleadoComponent } from './components/gestion-empleados/alta-empleado/alta-empleado.component';
+import { EmpleadosComponent } from './components/gestion-empleados/empleados/empleados.component';
+import { DetalleEmpleadoComponent } from './components/gestion-empleados/detalle-empleado/detalle-empleado.component';
+import { EmpleadosSolicitudesEpiComponent } from './components/gestion-material/empleados-solicitudes-epi/empleados-solicitudes-epi.component';
+import { EmpleadosSolicitudesBajaComponent } from './components/gestion-salud/empleados-solicitudes-baja/empleados-solicitudes-baja.component';
+import { DetalleSolicitudEmpleadoComponent } from './components/gestion-material/detalle-solicitud-empleado/detalle-solicitud-empleado.component';
+import { DetalleSolicitudBajaComponent } from './components/gestion-salud/detalle-solicitud-baja/detalle-solicitud-baja.component';
+import { AltaNoticiaComponent } from './components/gestion-empresa/alta-noticia/alta-noticia.component';
+import { AltaEpiComponent } from './components/gestion-material/alta-epi/alta-epi.component';
+import { InventarioEpisComponent } from './components/gestion-material/inventario-epis/inventario-epis.component';
+import { SolicitudesEpiAnalisisComponent } from './components/gestion-empresa/analisis/solicitudes-epi-analisis/solicitudes-epi-analisis.component';
+import { BajasAnalisisComponent } from './components/gestion-empresa/analisis/bajas-analisis/bajas-analisis.component';
+import { EpisAnalisisComponent } from './components/gestion-empresa/analisis/epis-analisis/epis-analisis.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatepickerModule } from './core/datepicker/datepicker.module';
-import { VacunasComponent } from './components/vacunas/vacunas.component';
-import { VacunasAnalisisComponent } from './components/analisis/vacunas-analisis/vacunas-analisis.component';
-import { StockMinimoComponent } from './components/stock-minimo/stock-minimo.component';
+import { VacunasComponent } from './components/gestion-salud/vacunas/vacunas.component';
+import { VacunasAnalisisComponent } from './components/gestion-empresa/analisis/vacunas-analisis/vacunas-analisis.component';
+import { StockMinimoComponent } from './components/gestion-material/stock-minimo/stock-minimo.component';
+import { ValidatorMessageComponent } from './core/components/validator-message/validator-message.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -267,6 +268,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         VacunasComponent,
         VacunasAnalisisComponent,
         StockMinimoComponent,
+        ValidatorMessageComponent,
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},

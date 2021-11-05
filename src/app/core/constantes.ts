@@ -71,6 +71,7 @@ export const constantes = {
     MENSAJE_GUARDAR_SOLICITUD_ERROR_HEADER: 'No se pudo realizar la solicitud',
     MENSAJE_GUARDAR_SOLICITUD_CORRECTO: 'Solicitud de equipos de protección individual registrada correctamente en el sistema',
     MENSAJE_GUARDAR_SOLICITUD_CORRECTO_HEADER: 'Solicitud añadida',
+    MENSAJE_GUARDAR_SOLICITUD_ERROR_CANTIDAD: 'La cantidad solicitada de alguno de los EPI debe ser mayor que 0',
 
     //Mensajes toast
     MENSAJE_CABECERA_AÑADIDO_CORRECTAMENTE: 'Guardado correctamente',

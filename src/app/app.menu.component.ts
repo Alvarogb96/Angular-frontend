@@ -29,7 +29,7 @@ export class AppMenuComponent implements OnInit {
                     ]
                 },
                 {
-                    label: 'EPIs', icon: 'pi pi-fw pi-shield', routerLink: ['epis'],
+                    label: 'EPI', icon: 'pi pi-fw pi-shield', routerLink: ['epis'],
                     items: [
                         { label: 'Solicitar', icon: 'pi pi-fw pi-pencil', routerLink: ['epis/solicitarEPI'] },
                         { label: 'Mis solicitudes', icon: 'pi pi-fw pi-list', routerLink: ['epis/solicitudesEPI'] }
@@ -61,7 +61,7 @@ export class AppMenuComponent implements OnInit {
                     ]
                 },
                 {
-                    label: 'EPIs', icon: 'pi pi-fw pi-shield', routerLink: ['epis'],
+                    label: 'EPI', icon: 'pi pi-fw pi-shield', routerLink: ['epis'],
                     items: [
                         { label: 'Solicitar', icon: 'pi pi-fw pi-pencil', routerLink: ['epis/solicitarEPI'] },
                         { label: 'Mis solicitudes', icon: 'pi pi-fw pi-list', routerLink: ['epis/solicitudesEPI'] },
@@ -84,9 +84,9 @@ export class AppMenuComponent implements OnInit {
             this.model = [
                 { label: 'Datos ' + this.role, icon: 'pi pi-fw pi-home', routerLink: ['datos'] },
                 {
-                    label: 'EPIs', icon: 'pi pi-fw pi-shield', routerLink: ['epis'],
+                    label: 'EPI', icon: 'pi pi-fw pi-shield', routerLink: ['epis'],
                     items: [
-                        { label: 'Añadir epi', icon: 'pi pi-fw pi-plus', routerLink: ['epis/alta'] },
+                        { label: 'Añadir EPI', icon: 'pi pi-fw pi-plus', routerLink: ['epis/alta'] },
                         { label: 'Stock mínimo', icon: 'pi pi-fw pi-chart-bar', routerLink: ['epis/stock'] },
                         { label: 'Inventario', icon: 'pi pi-fw pi-list', routerLink: ['epis/inventario']}
                     ]
@@ -104,10 +104,10 @@ export class AppMenuComponent implements OnInit {
                         { label: 'Empleados', icon: 'pi pi-fw pi-pencil', routerLink: ['analisis/empleados'] ,
                         items: [
                             { label: 'Solicitudes de EPI', icon: 'pi pi-fw pi-chart-bar', routerLink: ['analisis/empleados/solicitudesEPI'] },
-                            { label: 'Bajas', icon: 'pi pi-fw pi-chart-line', routerLink: ['analisis/empleados/bajas']},
+                            { label: 'Trabajo remoto', icon: 'pi pi-fw pi-chart-line', routerLink: ['analisis/empleados/bajas']},
                             { label: 'Vacunas', icon: 'pi pi-fw pi-chart-bar', routerLink: ['analisis/empleados/vacunas']}
                         ]},
-                        { label: 'EPIS', icon: 'pi pi-fw pi-chart-bar', routerLink: ['analisis/epis'] },
+                        { label: 'EPI', icon: 'pi pi-fw pi-chart-bar', routerLink: ['analisis/epis'] },
                     ]
                 }
             ];
