@@ -103,7 +103,9 @@ export class EmpleadosComponent implements OnInit {
         }
       }
     }), (err => {
-      
+      this.empleados = [];
+      this.messageService.add({severity:'info', summary: constantes.MENSAJE_CONSULTA_ERRONEA_GENERICO, 
+        detail: constantes.MENSAJE_CONSULTA_USUARIOS_ERRONEA, life: 8000});
     }));
   }
 

@@ -83,6 +83,7 @@ export class AltaEmpleadoComponent implements OnInit {
       this.formModel.reset();
     }), (err => {
       this.jornada = JORNADA_BLANK();
+      this.usuario.fecha_nacimiento = null;
       this.messageService.add({severity:'error', summary: constantes.MENSAJE_CABECERA_AÑADIDO_USUARIO_ERRONEO, 
         detail:err.error.message, life: 5000});
     }));

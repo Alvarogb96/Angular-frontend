@@ -120,6 +120,9 @@ export const constantes = {
     MENSAJE_EDITADO_USUARIO_PASSWORD_CORRECTO_CABECERA: 'Cambio contraseña correcto',
     MENSAJE_EDITADO_USUARIO_PASSWORD_CORRECTO: 'La nueva contraseña se ha guardado correctamente en el sistema',
 
+    //Mensaje empleados
+    MENSAJE_CONSULTA_USUARIOS_ERRONEA: 'Error en la consulta de usuarios',
+
     //Mensaje alta epi
     MENSAJE_GUARDAR_EPI: 'Realizará el alta de este equipo de protección individual en el sistema. ¿Desea continuar?',
     MENSAJE_GUARDAR_EPI_HEADER: 'Confirmación',
