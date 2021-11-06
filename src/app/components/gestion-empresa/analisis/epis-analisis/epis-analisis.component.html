@@ -1,5 +1,5 @@
 <div class="card">
-    <h5 *ngIf="this.data.datasets[0].data.length === 0">Equipos de protección individual no registrados en el sistema</h5>
+    <h5 *ngIf="this.data.datasets[0].data.length === 0">No hay equipos de protección individual añadidos al sistema o no ha establecido aún el stock mínimo</h5>
     <h5 *ngIf="this.data.datasets[0].data.length > 0">Equipos de protección individual disponibles</h5>
     <p-chart *ngIf = "mostrar && this.data.datasets[0].data.length > 0" type="doughnut" [data]="data" [options]="chartOptions" [style]="{'width': '100%'}"></p-chart>
 </div>

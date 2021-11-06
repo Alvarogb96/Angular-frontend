@@ -167,9 +167,11 @@ export const constantes = {
     MENSAJE_EDITADO_TEST_CORRECTO: 'La información del test se ha editado correctamente en el sistema',
 
     //Mensaje guardar stock epi
+
     MENSAJE_GUARDAR_STOCK_ERROR_HEADER: 'Error al guardar',
     MENSAJE_GUARDAR_STOCK_CORRECTO: 'Stock mínimo de equipos de protección individual registrado correctamente en el sistema',
     MENSAJE_GUARDAR_STOCK_CORRECTO_HEADER: 'Stock mínimo guardado',
+    MENSAJE_GUARDAR_STOCK_MINIMO: 'Va a modificar el stock mínimo de los equipos de protección individual. ¿Desea continuar?',
     
 
     //Roles
