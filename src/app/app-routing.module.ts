@@ -51,7 +51,7 @@ import { StockMinimoComponent } from './components/gestion-material/stock-minimo
             },
             {path: '', component: LoginComponent},
             {path: 'login', component: LoginComponent},
-            {path: '**', redirectTo: '/notfound'},
+            {path: '**', component: LoginComponent},
         ], {scrollPositionRestoration: 'enabled'})
     ],
     exports: [RouterModule]
